@@ -122,3 +122,11 @@ dependencies {
   implementation platform('com.google.firebase:firebase-bom:33.7.0')
   implementation 'com.google.firebase:firebase-analytics'
 }
+
+
+// New code for vector icons
+project.ext.vectoricons = [
+    iconFontNames: [ 'MaterialIcons.ttf', 'FontAwesome.ttf' ] // Add other fonts if needed
+]
+
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
