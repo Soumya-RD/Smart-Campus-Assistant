@@ -112,16 +112,17 @@ const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    backgroundColor:'#8d99ae'
+    backgroundColor: '#8d99ae'
   },
   Image: {
     height: 150,
     width: 250,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 15,
     marginLeft: 75,
     marginTop: 30,
-    marginBlock: 30
+    marginBlock: 30,
+    borderColor: '#ffb703',
   },
   TextInputView: {
 
@@ -130,7 +131,8 @@ const styles = StyleSheet.create({
     width: 340,
     borderRadius: 10,
     marginLeft: 30,
-    backgroundColor: '#ccd5ae'
+    backgroundColor: '#ccd5ae',
+    borderColor:'#450920',
   },
   TextInput: {
     fontWeight: 'bold',
@@ -142,12 +144,13 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   clearView: {
-    // borderWidth: 1,
+    borderWidth: 1,
     width: 100,
     height: 35,
     marginLeft: 75,
     borderRadius: 5,
-    backgroundColor: '#d90429'
+    backgroundColor: '#d90429',
+    borderColor:'#780000',
   },
   clearText: {
     fontWeight: 'bold',
@@ -157,12 +160,13 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   signUpView: {
-    // borderWidth: 1,
+    borderWidth: 1,
     width: 100,
     height: 35,
     marginLeft: 50,
     borderRadius: 5,
-    backgroundColor: '#132a13'
+    backgroundColor: '#132a13',
+    borderColor:'#609947'
   },
   signUpText: {
     fontWeight: 'bold',
@@ -179,12 +183,13 @@ const styles = StyleSheet.create({
 
   },
   signInView: {
-    // borderWidth: 1,
+    borderWidth: 1,
     width: 100,
     height: 40,
     borderRadius: 5,
     marginLeft: 15,
-    backgroundColor: '#003049'
+    backgroundColor: '#003049',
+    borderColor:'#bfdbf7'
   },
   signInText: {
     fontWeight: 'bold',
