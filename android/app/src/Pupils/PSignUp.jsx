@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 const PSignUp = ({ navigate }) => {
 
@@ -23,6 +24,37 @@ const PSignUp = ({ navigate }) => {
     setPassword('');
     setConformPassword('');
   }
+
+  // Sign up function
+  const handleSignUp = async() => {
+    if (!registation || !email || !phone || !password || !conformPassword) {
+      Alert.alert('Error', 'Please fill all fields');
+      return;
+    }
+    if (password != conformPassword) {
+      Alert.alert('Error', 'Password do not match');
+      return;
+    }
+
+    // Firebase authentication
+    try {
+      const userCredential=await auth().createUserWithEmailAndPassword(email,password);
+      // Save email and password to the firebase
+
+      Navigation.navigate('PSignIn');
+
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+
+
+  }
+
+
+
+
+
+
   return (
     <View style={styles.Container}>
       {/* Image */}
@@ -90,7 +122,7 @@ const PSignUp = ({ navigate }) => {
         </TouchableOpacity>
 
         {/* SignUp Button */}
-        <TouchableOpacity style={styles.signUpView}>
+        <TouchableOpacity style={styles.signUpView} onPress={handleSignUp}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -132,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: 30,
     backgroundColor: '#ccd5ae',
-    borderColor:'#450920',
+    borderColor: '#450920',
   },
   TextInput: {
     fontWeight: 'bold',
@@ -150,7 +182,7 @@ const styles = StyleSheet.create({
     marginLeft: 75,
     borderRadius: 5,
     backgroundColor: '#d90429',
-    borderColor:'#780000',
+    borderColor: '#780000',
   },
   clearText: {
     fontWeight: 'bold',
@@ -166,7 +198,7 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 5,
     backgroundColor: '#132a13',
-    borderColor:'#609947'
+    borderColor: '#609947'
   },
   signUpText: {
     fontWeight: 'bold',
@@ -189,7 +221,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 15,
     backgroundColor: '#003049',
-    borderColor:'#bfdbf7'
+    borderColor: '#bfdbf7'
   },
   signInText: {
     fontWeight: 'bold',

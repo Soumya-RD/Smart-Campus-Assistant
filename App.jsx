@@ -1,104 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native';
-// import firestore from '@react-native-firebase/firestore';
-// // Firebase App Initialization
-// import firebase from '@react-native-firebase/app';
-
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAFKpeIGjEnQC15QXy0074Cmb6zZOgE_ao",
-//   authDomain: "smart-campus-262e3.firebaseapp.com",
-//   projectId: "smart-campus-262e3",
-//   storageBucket: "smart-campus-262e3.firebasestorage.app",
-//   messagingSenderId: "970351393838",
-//   appId: "1:970351393838:android:7f0a54914a39784994b3bf",
-// };
-
-// if (!firebase.apps.length) {
-//   firebase.initializeApp(firebaseConfig);
-// }
-
-// const App = () => {
-//   const [data, setData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-
-//   useEffect(() => {
-//     getDatabase();
-//   }, []);
-
-//   const getDatabase = async () => {
-//     try {
-//       const documentSnapshot = await firestore()
-//         .collection('testing')
-//         .doc('TCnFOCw1TM8qHYACBDdY')
-//         .get();
-
-//       if (documentSnapshot.exists) {
-//         setData([documentSnapshot.data()]); // Wrap in an array for FlatList compatibility
-//       } else {
-//         setError('No data found');
-//       }
-//     } catch (error) {
-//       setError(error.message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       {loading ? (
-//         <ActivityIndicator size="large" color="#0000ff" />
-//       ) : error ? (
-//         <Text style={styles.errorText}>{error}</Text>
-//       ) : (
-//         <FlatList
-//           data={data}
-//           keyExtractor={(item, index) => index.toString()}
-//           renderItem={({ item }) => (
-//             <View style={styles.itemContainer}>
-//               <Text style={styles.itemText}>Name: {item.name}</Text>
-//               <Text style={styles.itemText}>Age: {item.age}</Text>
-//             </View>
-//           )}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-
-// export default App;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     padding: 20,
-//     backgroundColor: '#f8f9fa',
-//   },
-//   text: {
-//     fontSize: 18,
-//     fontWeight: 'bold',
-//     marginBottom: 10,
-//   },
-//   errorText: {
-//     fontSize: 16,
-//     color: 'red',
-//     textAlign: 'center',
-//   },
-//   itemContainer: {
-//     padding: 10,
-//     backgroundColor: '#e9ecef',
-//     borderRadius: 8,
-//     marginVertical: 5,
-//     width: '100%',
-//   },
-//   itemText: {
-//     fontSize: 16,
-//   },
-// });
-
 
 
 //Project Code
@@ -115,6 +14,7 @@ import SSignUp from './android/app/src/Supporters/SSignUp';
 import SSignIn from './android/app/src/Supporters/SSignIn';
 import PSignUp from './android/app/src/Pupils/PSignUp';
 import PSignIn from './android/app/src/Pupils/PSignIn';
+import PHome from './android/app/src/Pupils/PHome';
 
 
 
@@ -142,6 +42,7 @@ const App = () => {
         {/* Pupils */}
         <Stack.Screen name='PSignIn' component={PSignIn} />
         <Stack.Screen name='PSignUp' component={PSignUp} />
+        <Stack.Screen name='PHome'component={PHome}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

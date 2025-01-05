@@ -1,38 +1,65 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-const PSignIn = ({Navigate}) => {
+import auth from '@react-native-firebase/auth';
 
+const PSignIn = () => {
   const [registation, setRegistation] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const Navigation=useNavigation();
+  const Navigation = useNavigation();
 
-  const forgetPasswordFields = () => {
-   
+  // Forget Password Functionality
+  const forgetPasswordFields = async () => {
+    if (email) {
+      try {
+        await auth().sendPasswordResetEmail(email);
+        Alert.alert('Success', 'Password reset email sent');
+      } catch (error) {
+        Alert.alert('Error', error.message);
+      }
+    } else {
+      Alert.alert('Error', 'Please enter your email address');
+    }
+  };
 
-  }
+  const handleSignIn = async () => {
+    if (!email || !password || !registation) {
+      Alert.alert('Error', 'Please fill all fields');
+      return;
+    }
+
+    try {
+      await auth().signInWithEmailAndPassword(email, password);
+      Alert.alert('Success', `Welcome back, Registration No:${registation}`);
+      Navigation.navigate('PHome');
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+
   return (
     <View style={styles.Container}>
       {/* Image */}
       <View>
         <Image source={require('./studentSignIn.jpg')} style={styles.Image} />
       </View>
-      {/* Registation Number */}
+
+      {/* Registration Number */}
       <View style={styles.TextInputView}>
-        {/* <MaterialIcons name="app-registration" size={24} color="black" /> */}
-        <TextInput placeholder='Registation Number'
+        <TextInput
+          placeholder="Registration Number"
           style={styles.TextInput}
           value={registation}
           onChangeText={setRegistation}
-
         />
       </View>
 
       {/* Email */}
       <View style={styles.TextInputView}>
-        <TextInput placeholder='Email'
+        <TextInput
+          placeholder="Email"
           style={styles.TextInput}
           value={email}
           onChangeText={setEmail}
@@ -40,52 +67,46 @@ const PSignIn = ({Navigate}) => {
         />
       </View>
 
-
-
-
-
-      {/* password */}
+      {/* Password */}
       <View style={styles.TextInputView}>
-        <TextInput placeholder='Password'
+        <TextInput
+          placeholder="Password"
           style={styles.TextInput}
           value={password}
           onChangeText={setPassword}
-
-
+          secureTextEntry
         />
       </View>
 
-
-
       <View style={styles.ButtomView}>
-        {/* ForgetPassword button */}
+        {/* Forget Password button */}
         <TouchableOpacity style={styles.forgetPasswordView} onPress={forgetPasswordFields}>
-          <Text style={styles.forgetPasswordText}>forgetPassword</Text>
+          <Text style={styles.forgetPasswordText}>Forget Password</Text>
         </TouchableOpacity>
 
         {/* SignIn Button */}
-        <TouchableOpacity style={styles.signInView}>
+        <TouchableOpacity style={styles.signInView} onPress={handleSignIn}>
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Sign Up  */}
+      {/* Sign Up */}
       <View style={{ flexDirection: 'row', marginTop: 35 }}>
         <Text style={styles.signUpSentence}>Create a new account ?</Text>
-        <TouchableOpacity style={styles.signUpView} onPress={()=>Navigation.navigate('PSignUp')} >
+        <TouchableOpacity style={styles.signUpView} onPress={() => Navigation.navigate('PSignUp')}>
           <Text style={styles.signUpText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
-  )
-}
+  );
+};
 
-export default PSignIn
+export default PSignIn;
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    backgroundColor: '#bfdbf7'
+    backgroundColor: '#bfdbf7',
   },
   Image: {
     height: 200,
@@ -98,7 +119,6 @@ const styles = StyleSheet.create({
     borderColor: '#5f0f40',
   },
   TextInputView: {
-
     borderWidth: 1,
     marginTop: 10,
     width: 340,
@@ -110,11 +130,11 @@ const styles = StyleSheet.create({
   TextInput: {
     fontWeight: 'bold',
     textAlign: 'center',
-    // marginLeft:5
+    padding: 10,
   },
   ButtomView: {
     flexDirection: 'row',
-    marginTop: 30
+    marginTop: 30,
   },
   forgetPasswordView: {
     borderWidth: 1,
@@ -131,7 +151,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 4,
     color: '#fff',
-   
   },
   signInView: {
     borderWidth: 1,
@@ -140,21 +159,20 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     borderRadius: 5,
     backgroundColor: '#132a13',
-    borderColor: '#609947'
+    borderColor: '#609947',
   },
   signInText: {
     fontWeight: 'bold',
     fontSize: 17,
     textAlign: 'center',
     padding: 4,
-    color: '#fff'
+    color: '#fff',
   },
   signUpSentence: {
     fontWeight: 'bold',
     fontSize: 17,
     marginLeft: 40,
     marginTop: 5,
-
   },
   signUpView: {
     borderWidth: 1,
@@ -163,14 +181,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 15,
     backgroundColor: '#023047',
-    borderColor: '#bfdbf7'
+    borderColor: '#bfdbf7',
   },
   signUpText: {
     fontWeight: 'bold',
     padding: 6,
     paddingLeft: 20,
     fontSize: 17,
-    color: '#fff'
+    color: '#fff',
   },
-
-})
+});
