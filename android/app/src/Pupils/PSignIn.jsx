@@ -34,6 +34,9 @@ const PSignIn = () => {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', `Welcome back, Registration No:${registation}`);
       Navigation.navigate('PHome');
+      setEmail('');
+      setRegistation('');
+      setPassword('');
     } catch (error) {
       Alert.alert('Error', error.message);
     }

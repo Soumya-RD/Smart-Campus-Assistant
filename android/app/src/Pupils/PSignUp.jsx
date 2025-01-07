@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert,  } from 'react-native'
 import React, { useState } from 'react'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
-
+import firestore from '@react-native-firebase/firestore';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 const PSignUp = ({ navigate }) => {
 
 
@@ -15,7 +16,8 @@ const PSignUp = ({ navigate }) => {
   const [password, setPassword] = useState('');
   const [conformPassword, setConformPassword] = useState('');
   const [display, setDisplay] = useState('true');
-
+  const [message, setMessage] = useState('');
+  const [name, setName] = useState('');
 
   const clearFields = () => {
     setRegistation('');
@@ -23,10 +25,11 @@ const PSignUp = ({ navigate }) => {
     setPhone('');
     setPassword('');
     setConformPassword('');
+    setName('');
   }
 
   // Sign up function
-  const handleSignUp = async() => {
+  const handleSignUp = async () => {
     if (!registation || !email || !phone || !password || !conformPassword) {
       Alert.alert('Error', 'Please fill all fields');
       return;
@@ -38,11 +41,32 @@ const PSignUp = ({ navigate }) => {
 
     // Firebase authentication
     try {
-      const userCredential=await auth().createUserWithEmailAndPassword(email,password);
       // Save email and password to the firebase
+      const userCredential = await auth().createUserWithEmailAndPassword(email, password);
 
+      // validate mobile number
+      if (!/^\d{10}$/.test(phone)) {
+        setMessage('Phone number exactly 10 digits');
+      }
+
+
+      // save user data to firestore
+      const saveData = await firestore().collection('p5rH4GSCmfEv3U5q58VJ').add({
+        name: name,
+        email: email,
+        registation: registation,
+        phone: phone,
+        CreatedAt: firestore.FieldValue.serverTimestamp(),
+
+      });
+      setMessage('User Data save successfully !');
       Navigation.navigate('PSignIn');
-
+      setRegistation('');
+      setEmail('');
+      setPhone('');
+      setPassword('');
+      setConformPassword('');
+      setName('');
     } catch (error) {
       Alert.alert('Error', error.message);
     }
@@ -56,11 +80,26 @@ const PSignUp = ({ navigate }) => {
 
 
   return (
-    <View style={styles.Container}>
+    <KeyboardAwareScrollView style={styles.Container}>
+
+    
+    
       {/* Image */}
       <View>
         <Image source={require('./studentLandScap.png')} style={styles.Image} />
       </View>
+
+      {/* Name */}
+      <View style={styles.TextInputView}>
+        <TextInput placeholder='Student Name'
+          style={styles.TextInput}
+          value={name}
+          onChangeText={setName}
+
+        />
+      </View>
+
+
       {/* Registation Number */}
       <View style={styles.TextInputView}>
         {/* <MaterialIcons name="app-registration" size={24} color="black" /> */}
@@ -134,7 +173,8 @@ const PSignUp = ({ navigate }) => {
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
       </View>
-    </View>
+   
+    </KeyboardAwareScrollView>
   )
 }
 
