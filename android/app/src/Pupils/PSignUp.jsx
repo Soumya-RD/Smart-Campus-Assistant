@@ -1,10 +1,14 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, Dimensions, PixelRatio } from 'react-native'
 import React, { useState } from 'react'
-// import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const scale = (size) => (screenWidth / 375) * size;
+const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size)); 
+
 const PSignUp = ({ navigate }) => {
 
 
@@ -15,7 +19,6 @@ const PSignUp = ({ navigate }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [conformPassword, setConformPassword] = useState('');
-  const [display, setDisplay] = useState('true');
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
 
@@ -43,9 +46,9 @@ const PSignUp = ({ navigate }) => {
     try {
       // Save email and password to the firebase
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-     
-     
-     
+
+
+
       // Send verification code 
 
       if (userCredential.user) {
@@ -111,7 +114,7 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* Registation Number */}
-      <View style={styles.TextInputView}>
+      <View style={styles.TextInputView} >
         {/* <MaterialIcons name="app-registration" size={24} color="black" /> */}
         <TextInput placeholder='Registation Number'
           style={styles.TextInput}
@@ -150,6 +153,7 @@ const PSignUp = ({ navigate }) => {
           style={styles.TextInput}
           value={password}
           onChangeText={setPassword}
+          secureTextEntry={true}
 
 
         />
@@ -162,6 +166,7 @@ const PSignUp = ({ navigate }) => {
           style={styles.TextInput}
           value={conformPassword}
           onChangeText={setConformPassword}
+          secureTextEntry={true}
         />
       </View>
       <View style={styles.ButtomView}>
@@ -193,92 +198,96 @@ export default PSignUp
 const styles = StyleSheet.create({
 
   Container: {
-    flex: 1,
+    flex: normalize(1),
     backgroundColor: '#8d99ae'
   },
   Image: {
-    height: 150,
-    width: 250,
-    borderWidth: 3,
-    borderRadius: 15,
-    marginLeft: 75,
-    marginTop: 30,
-    marginBlock: 30,
+    height: normalize(150),
+    width: normalize(265),
+    borderWidth: normalize(3),
+    borderRadius: normalize(15),
+    marginLeft: normalize(55),
+    marginBlock: normalize(30),
     borderColor: '#ffb703',
+
   },
   TextInputView: {
 
-    borderWidth: 1,
-    marginTop: 10,
-    width: 340,
-    borderRadius: 10,
-    marginLeft: 30,
+    borderWidth: normalize(1),
+    marginTop: normalize(5),
+    width: '80%',
+    borderRadius: normalize(10),
+    marginLeft: normalize(40),
     backgroundColor: '#ccd5ae',
     borderColor: '#450920',
+   
+
   },
   TextInput: {
     fontWeight: 'bold',
     textAlign: 'center',
-    // marginLeft:5
+
   },
   ButtomView: {
     flexDirection: 'row',
-    marginTop: 30
+    marginTop: normalize(30)
   },
   clearView: {
-    borderWidth: 1,
-    width: 100,
-    height: 35,
-    marginLeft: 75,
-    borderRadius: 5,
+    borderWidth: normalize(1),
+    width: normalize(100),
+    height: normalize(35),
+    marginLeft: normalize(75),
+    borderRadius: normalize(5),
     backgroundColor: '#d90429',
     borderColor: '#780000',
+    justifyContent: 'space-between',
+
   },
   clearText: {
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: normalize(17),
     textAlign: 'center',
-    padding: 4,
+    padding: normalize(4),
     color: '#fff'
   },
   signUpView: {
-    borderWidth: 1,
-    width: 100,
-    height: 35,
-    marginLeft: 50,
-    borderRadius: 5,
+    borderWidth: normalize(1),
+    width: normalize(100),
+    height: normalize(35),
+    marginLeft: normalize(30),
+    borderRadius: normalize(5),
     backgroundColor: '#132a13',
     borderColor: '#609947'
   },
   signUpText: {
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: normalize(17),
     textAlign: 'center',
-    padding: 4,
+    padding: normalize(4),
     color: '#fff'
   },
   signInSentence: {
     fontWeight: 'bold',
-    fontSize: 17,
-    marginLeft: 40,
-    marginTop: 5,
+    fontSize: normalize(17),
+    marginLeft: normalize(40),
+    marginTop: normalize(5),
 
   },
   signInView: {
-    borderWidth: 1,
-    width: 100,
-    height: 40,
-    borderRadius: 5,
-    marginLeft: 15,
+    borderWidth: normalize(1),
+    width: normalize(100),
+    height: normalize(35),
+    borderRadius: normalize(5),
+
     backgroundColor: '#003049',
     borderColor: '#bfdbf7'
   },
   signInText: {
     fontWeight: 'bold',
-    padding: 6,
-    paddingLeft: 20,
-    fontSize: 17,
-    color: '#fff'
+    padding: normalize(5),
+    fontSize: normalize(17),
+    color: '#fff',
+    textAlign:'center'
   },
 
 })
