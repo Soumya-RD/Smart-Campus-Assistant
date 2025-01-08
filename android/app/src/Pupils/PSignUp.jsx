@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert,  } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, } from 'react-native'
 import React, { useState } from 'react'
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { useNavigation } from '@react-navigation/native';
@@ -43,6 +43,16 @@ const PSignUp = ({ navigate }) => {
     try {
       // Save email and password to the firebase
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
+     
+     
+     
+      // Send verification code 
+
+      if (userCredential.user) {
+        await userCredential.user.sendEmailVerification();
+        Alert.alert('Verification Email Sent', 'Please check your email to verify your account.');
+      }
+
 
       // validate mobile number
       if (!/^\d{10}$/.test(phone)) {
@@ -82,8 +92,8 @@ const PSignUp = ({ navigate }) => {
   return (
     <KeyboardAwareScrollView style={styles.Container}>
 
-    
-    
+
+
       {/* Image */}
       <View>
         <Image source={require('./studentLandScap.png')} style={styles.Image} />
@@ -173,7 +183,7 @@ const PSignUp = ({ navigate }) => {
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
       </View>
-   
+
     </KeyboardAwareScrollView>
   )
 }

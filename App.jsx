@@ -8,8 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import Welcom from './android/app/src/Screen/Welcom';
 import AdminSignUp from './android/app/src/Admin/AdminSignUp';
 import AdminSignIn from './android/app/src/Admin/AdminSignIn';
-import FacultySignUp from './android/app/src/Faculty/FacultySignUp';
 import FSignIn from './android/app/src/Faculty/FSignIn';
+import FHome from './android/app/src/Faculty/FHome';
 import SSignUp from './android/app/src/Supporters/SSignUp';
 import SSignIn from './android/app/src/Supporters/SSignIn';
 import PSignUp from './android/app/src/Pupils/PSignUp';
@@ -31,8 +31,9 @@ const App = () => {
         <Stack.Screen name='AdminSignIn' component={AdminSignIn} />
 
         {/* faculty */}
-        <Stack.Screen name='FacultySignUp' component={FacultySignUp} />
+       
         <Stack.Screen name='FSignIn' component={FSignIn} />
+        <Stack.Screen name='FHome' component={FHome}/>
 
         {/* Supporters */}
         <Stack.Screen name='SSignIn' component={SSignIn} />
