@@ -102,9 +102,9 @@ const styles = StyleSheet.create({
     width: '80%',
     marginLeft: normalize(35),
     marginTop: normalize(50),
-    borderRadius: normalize(10),
-    borderWidth: 2,
-    borderColor: '#d62828',
+    borderRadius: normalize(15),
+    borderWidth: 3,
+    borderColor: '#5f0f40',
 
   },
   TextInputView: {
