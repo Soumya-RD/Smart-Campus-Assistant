@@ -1,8 +1,12 @@
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert, Dimensions, PixelRatio } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
+
+const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const scale = (size) => (screenWidth / 375) * size;
+const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 const PSignIn = () => {
   const [registation, setRegistation] = useState('');
   const [email, setEmail] = useState('');
@@ -108,89 +112,92 @@ export default PSignIn;
 
 const styles = StyleSheet.create({
   Container: {
-    flex: 1,
+    flex: normalize(1),
     backgroundColor: '#bfdbf7',
   },
   Image: {
-    height: 200,
-    width: 250,
-    borderWidth: 1,
-    borderRadius: 15,
-    marginLeft: 75,
-    marginTop: 30,
-    marginBlock: 30,
+    height: normalize(200),
+    width: normalize(250),
+    borderWidth: normalize(1),
+    borderRadius: normalize(15),
+    marginLeft: normalize(60),
+    marginTop: normalize(30),
+    marginBlock: normalize(30),
     borderColor: '#5f0f40',
   },
   TextInputView: {
-    borderWidth: 1,
-    marginTop: 10,
-    width: 340,
-    borderRadius: 10,
-    marginLeft: 30,
+    borderWidth: normalize(1),
+    marginTop: normalize(10),
+    width: '85%',
+    borderRadius: normalize(10),
+    marginLeft: normalize(30),
     backgroundColor: '#ccd5ae',
     borderColor: '#450920',
+
   },
   TextInput: {
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: 10,
+    padding: normalize(10),
+    height: normalize(40),
+
   },
   ButtomView: {
     flexDirection: 'row',
-    marginTop: 30,
+    marginTop: normalize(30),
   },
   forgetPasswordView: {
-    borderWidth: 1,
-    width: 140,
-    height: 35,
-    marginLeft: 60,
-    borderRadius: 5,
+    borderWidth: normalize(1),
+    width: '35%',
+    height: normalize(40),
+    marginLeft: normalize(45),
+    borderRadius: normalize(5),
     backgroundColor: '#d90429',
     borderColor: '#780000',
   },
   forgetPasswordText: {
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: normalize(15),
     textAlign: 'center',
-    padding: 4,
+    padding: normalize(5),
     color: '#fff',
   },
   signInView: {
-    borderWidth: 1,
-    width: 100,
-    height: 35,
-    marginLeft: 50,
-    borderRadius: 5,
+    borderWidth: normalize(1),
+    width: '40%',
+    height: normalize(40),
+    marginLeft: normalize(15),
+    borderRadius: normalize(5),
     backgroundColor: '#132a13',
     borderColor: '#609947',
   },
   signInText: {
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: normalize(15),
     textAlign: 'center',
-    padding: 4,
+    padding: normalize(6),
     color: '#fff',
   },
   signUpSentence: {
     fontWeight: 'bold',
-    fontSize: 17,
-    marginLeft: 40,
-    marginTop: 5,
+    fontSize: normalize(17),
+    marginLeft: normalize(40),
+    marginTop: normalize(5),
   },
   signUpView: {
-    borderWidth: 1,
-    width: 100,
-    height: 40,
-    borderRadius: 5,
-    marginLeft: 15,
+    borderWidth: normalize(1),
+    width: '30%',
+    height: normalize(40),
+    borderRadius: normalize(5),
+    marginLeft: normalize(15),
     backgroundColor: '#023047',
     borderColor: '#bfdbf7',
   },
   signUpText: {
     fontWeight: 'bold',
-    padding: 6,
-    paddingLeft: 20,
-    fontSize: 17,
+    padding: normalize(6),
+    textAlign:'center',
+    fontSize: normalize(15),
     color: '#fff',
   },
 });
