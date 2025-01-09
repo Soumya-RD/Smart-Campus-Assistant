@@ -1,7 +1,7 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator,TextInput } from 'react-native';
 import React, { useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { TextInput } from 'react-native-gesture-handler';
+
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
