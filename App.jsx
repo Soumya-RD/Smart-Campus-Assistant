@@ -4,12 +4,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import Welcom from './android/app/src/Screen/Welcom';
 import AdminSignUp from './android/app/src/Admin/AdminSignUp';
 import AdminSignIn from './android/app/src/Admin/AdminSignIn';
 import FSignIn from './android/app/src/Faculty/FSignIn';
 import FHome from './android/app/src/Faculty/FHome';
+import FChat from './android/app/src/Faculty/FChat';
+import FNotification from './android/app/src/Faculty/FNotification';
+import FSetting from './android/app/src/Faculty/FSetting';
+import FAttendance from './android/app/src/Faculty/FAttendance';
 import SSignUp from './android/app/src/Supporters/SSignUp';
 import SSignIn from './android/app/src/Supporters/SSignIn';
 import PSignUp from './android/app/src/Pupils/PSignUp';
@@ -20,6 +25,7 @@ import PHome from './android/app/src/Pupils/PHome';
 
 const App = () => {
   const Stack = createStackNavigator();
+  const Tab=createBottomTabNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Welcom'>
@@ -34,6 +40,7 @@ const App = () => {
        
         <Stack.Screen name='FSignIn' component={FSignIn} />
         <Stack.Screen name='FHome' component={FHome}/>
+       
 
         {/* Supporters */}
         <Stack.Screen name='SSignIn' component={SSignIn} />
@@ -45,6 +52,7 @@ const App = () => {
         <Stack.Screen name='PSignUp' component={PSignUp} />
         <Stack.Screen name='PHome'component={PHome}/>
       </Stack.Navigator>
+     
     </NavigationContainer>
   )
 }

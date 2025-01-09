@@ -27,16 +27,33 @@ const FSignIn = () => {
     }
     setLoading(true);
     try {
-      //  Faculty signIn is not properly setup  
-      // const teacherDoc = await firestore().collection('faculty').doc(email).get();
-      // const passwordDoc = await firestore().collection('faculty').doc(password).get();
-      // if (!teacherDoc.exists || !passwordDoc.exists) {
-      //   setLoading(false);
-      //   Alert.alert('Access Denied', 'This email or password is not authorized as a faculty.');
-      //   return;
-      // }
+      // Query Firestore to check if the email exists in the faculty collection
+      const teacherQuery = await firestore()
+        .collection('faculty')
+        .where('email', '==', email)
+        .get();
+  
+      if (teacherQuery.empty) {
+        setLoading(false);
+        Alert.alert('Access Denied', 'This email is not authorized as a faculty.');
+        return;
+      }
+  
+      // Check if the password matches
+      const teacherData = teacherQuery.docs[0].data(); 
+      if (teacherData.password !== password) {
+        setLoading(false);
+        Alert.alert('Error', 'Incorrect password. Please try again.');
+        return;
+      }
+  
+      // Sign in the user with Firebase Auth
       await auth().signInWithEmailAndPassword(email, password);
+  
+      // Navigate to the Faculty Home Screen
       navigation.navigate('FHome');
+  
+      // Clear the input fields
       setEmail('');
       setPassword('');
     } catch (error) {
@@ -51,7 +68,7 @@ const FSignIn = () => {
       setLoading(false);
     }
   };
-
+  
   const resetPassword = async () => {
     if (!email || !isValidEmail(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
@@ -102,7 +119,7 @@ const FSignIn = () => {
 const styles = StyleSheet.create({
   ScreenView: {
     flex: 1,
-    backgroundColor: '#c0fdfb',
+    backgroundColor: '#cae9ff',
   },
   Image: {
     height: '90%',
