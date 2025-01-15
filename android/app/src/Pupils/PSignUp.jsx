@@ -7,7 +7,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const scale = (size) => (screenWidth / 375) * size;
-const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size)); 
+const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 
 const PSignUp = ({ navigate }) => {
 
@@ -64,7 +64,7 @@ const PSignUp = ({ navigate }) => {
 
 
       // save user data to firestore
-      const saveData = await firestore().collection('p5rH4GSCmfEv3U5q58VJ').add({
+      const saveData = await firestore().collection('Student').add({
         name: name,
         email: email,
         registation: registation,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     marginLeft: normalize(40),
     backgroundColor: '#ccd5ae',
     borderColor: '#450920',
-   
+
 
   },
   TextInput: {
@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     padding: normalize(5),
     fontSize: normalize(17),
     color: '#fff',
-    textAlign:'center'
+    textAlign: 'center'
   },
 
 })
