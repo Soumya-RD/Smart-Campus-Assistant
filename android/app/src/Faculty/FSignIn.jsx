@@ -1,5 +1,5 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator,TextInput } from 'react-native';
-import React, { useState } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator, TextInput ,} from 'react-native';
+import React, { useState,useEffect } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import auth from '@react-native-firebase/auth';
@@ -15,10 +15,30 @@ const FSignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  // New Code
+  const [facultyData, setFacultyData] = useState([]);
+  // New code
 
   const navigation = useNavigation();
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // New code
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const facultyCollection = await firestore().collection('faculty').get();
+        const data = facultyCollection.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setFacultyData(data);
+        return;
+
+      } catch (error) {
+        Alert.alert('Error', 'Error fetching faculty data.');
+        return;
+      }
+    };
+    fetchData();
+  }, []);
+  // new Code
 
   const handleSignIn = async () => {
     if (!email || !password) {
@@ -27,33 +47,30 @@ const FSignIn = () => {
     }
     setLoading(true);
     try {
-      // Query Firestore to check if the email exists in the faculty collection
+
       const teacherQuery = await firestore()
         .collection('faculty')
         .where('email', '==', email)
         .get();
-  
+
+
       if (teacherQuery.empty) {
         setLoading(false);
         Alert.alert('Access Denied', 'This email is not authorized as a faculty.');
         return;
       }
-  
-      // Check if the password matches
-      const teacherData = teacherQuery.docs[0].data(); 
+
+
+      const teacherData = teacherQuery.docs[0].data();
       if (teacherData.password !== password) {
         setLoading(false);
         Alert.alert('Error', 'Incorrect password. Please try again.');
         return;
       }
-  
-      // Sign in the user with Firebase Auth
+
+
       await auth().signInWithEmailAndPassword(email, password);
-  
-      // Navigate to the Faculty Home Screen
       navigation.navigate('FHome');
-  
-      // Clear the input fields
       setEmail('');
       setPassword('');
     } catch (error) {
@@ -68,8 +85,8 @@ const FSignIn = () => {
       setLoading(false);
     }
   };
-  
-  const resetPassword = async () => {
+
+  const handleResetPassword = async () => {
     if (!email || !isValidEmail(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
       return;
@@ -83,33 +100,33 @@ const FSignIn = () => {
   };
 
   return (
-    <KeyboardAwareScrollView style={styles.ScreenView}>
-      <Image source={require('./FSignIn.jpg')} style={styles.Image} />
-      <View style={styles.TextInputView}>
+    <KeyboardAwareScrollView style={styles.Container}>
+      <Image source={require('./FSignIn.jpg')} style={styles.ImageContainer} />
+      <View style={styles.inputContainer}>
         <TextInput
           placeholder="Email"
-          style={styles.TextInput}
+          style={styles.input}
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           placeholder="Password"
-          style={styles.TextInput}
+          style={styles.input}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
       </View>
-      <View style={styles.ButtomView}>
-        <TouchableOpacity onPress={resetPassword} style={styles.resetPasswordView}>
-          <Text style={styles.ButtomText}>Reset Password</Text>
+      <View style={styles.ButtomContainer}>
+        <TouchableOpacity onPress={handleResetPassword}
+          style={styles.resetPasswordButton}>
+          <Text style={styles.ButtonText}>Reset Password</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignIn}
-          style={[styles.signInView, loading && { opacity: 0.5 }]}
-          disabled={loading}
+          style={styles.signInButton}
         >
-          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.ButtomText}>Sign In</Text>}
+          <Text style={styles.ButtonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAwareScrollView>
@@ -117,69 +134,58 @@ const FSignIn = () => {
 };
 
 const styles = StyleSheet.create({
-  ScreenView: {
+
+  Container: {
     flex: 1,
-    backgroundColor: '#cae9ff',
+
   },
-  Image: {
-    height: '90%',
-    width: '80%',
-    marginLeft: normalize(35),
-    marginTop: normalize(50),
-    borderRadius: normalize(15),
-    borderWidth: normalize(2),
-    borderColor: '#4f000b'
+  ImageContainer: {
+    width: '30%',
+    height: '80%',
+    borderRadius: normalize(5),
+    marginLeft: normalize(5),
+    marginTop: normalize(5),
   },
-  TextInputView: {
+  inputContainer: {
     alignItems: 'center',
     marginTop: normalize(20),
   },
-  TextInput: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    width: '80%',
-    height: normalize(40),
-    marginTop: normalize(15),
-    borderRadius: normalize(10),
-    backgroundColor: '#efd6ac',
-    borderWidth: normalize(1),
-    borderColor:'#6e1423'
-    
+  input: {
+    borderBottomWidth: 1,
+    width: '90%',
+    marginTop: normalize(10),
 
   },
-  ButtomView: {
+  ButtomContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
     marginTop: normalize(25),
-  },
-  resetPasswordView: {
 
+  },
+  resetPasswordButton: {
+    width: '40%',
     height: normalize(35),
-    width: normalize(125),
-   
-    marginLeft: normalize(50),
+    borderWidth: 1,
+    marginLeft: normalize(20),
     borderRadius: normalize(5),
-    backgroundColor: '#9a031e',
-
-
+    backgroundColor: '#9d0208'
   },
-  signInView: {
+  signInButton: {
+    width: '40%',
     height: normalize(35),
-    width: normalize(120),
-    
-    marginRight: normalize(50),
+    borderWidth: 1,
+    marginLeft: normalize(35),
     borderRadius: normalize(5),
-    backgroundColor: '#283618',
-
+    backgroundColor: '#264653'
   },
-  ButtomText: {
-    textAlign: 'center',
+  ButtonText: {
     fontWeight: 'bold',
-    fontSize: normalize(14),
+    textAlign: 'center',
     padding: normalize(5),
-    color: '#fff',
+    fontSize: normalize(14),
+    color: '#fff'
+
   },
+
 });
 
 export default FSignIn;

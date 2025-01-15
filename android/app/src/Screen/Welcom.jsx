@@ -26,7 +26,7 @@ const Welcom = ({ Navigate }) => {
                     <Image source={require('./NonTeaching.jpg')} style={styles.SupportStaffImage} />
                     <Text style={styles.CardText}>Supporters </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.pupilsView} onPress={() => Navigation.navigate('PSignUp')} >
+                <TouchableOpacity style={styles.pupilsView} onPress={() => Navigation.navigate('PSignIn')} >
                     <Image source={require('./StudentCard.jpg')} style={styles.pupilsImage} />
                     <Text style={styles.CardText}>Pupils</Text>
                 </TouchableOpacity>
