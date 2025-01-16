@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const scale = (size) => (screenWidth / 375) * size;
@@ -93,19 +93,19 @@ const PSignUp = ({ navigate }) => {
 
 
   return (
-    <KeyboardAwareScrollView style={styles.Container}>
+    <View style={styles.Container}>
 
 
 
       {/* Image */}
-      <View>
-        <Image source={require('./studentLandScap.png')} style={styles.Image} />
-      </View>
+
+      <Image source={require('./studentLandScap.png')} style={styles.imageConatiner} />
+
 
       {/* Name */}
-      <View style={styles.TextInputView}>
-        <TextInput placeholder='Student Name'
-          style={styles.TextInput}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder=' username'
+          style={styles.input}
           value={name}
           onChangeText={setName}
 
@@ -114,10 +114,10 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* Registation Number */}
-      <View style={styles.TextInputView} >
-        {/* <MaterialIcons name="app-registration" size={24} color="black" /> */}
-        <TextInput placeholder='Registation Number'
-          style={styles.TextInput}
+      <View style={styles.inputContainer} >
+
+        <TextInput placeholder='registation number'
+          style={styles.input}
           value={registation}
           onChangeText={setRegistation}
 
@@ -126,9 +126,9 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* Email */}
-      <View style={styles.TextInputView}>
-        <TextInput placeholder='Email'
-          style={styles.TextInput}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder='email'
+          style={styles.input}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -137,9 +137,9 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* Phone Number */}
-      <View style={styles.TextInputView}>
-        <TextInput placeholder='Phone Number'
-          style={styles.TextInput}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder='phone number'
+          style={styles.input}
           value={phone}
           onChangeText={setPhone}
           keyboardType='phone-pad'
@@ -148,9 +148,9 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* password */}
-      <View style={styles.TextInputView}>
-        <TextInput placeholder='Password'
-          style={styles.TextInput}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder='password'
+          style={styles.input}
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
@@ -161,35 +161,48 @@ const PSignUp = ({ navigate }) => {
 
 
       {/* conform password */}
-      <View style={styles.TextInputView}>
-        <TextInput placeholder='Conform Password'
-          style={styles.TextInput}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder='conform password'
+          style={styles.input}
           value={conformPassword}
           onChangeText={setConformPassword}
           secureTextEntry={true}
         />
       </View>
-      <View style={styles.ButtomView}>
+
+      <View style={styles.ButtomConatiner}>
         {/* clear button */}
-        <TouchableOpacity style={styles.clearView} onPress={clearFields}>
-          <Text style={styles.clearText}>Clear</Text>
+        <TouchableOpacity style={[styles.buttonConatiner,{backgroundColor:'#6a040f'}]} onPress={clearFields}>
+          <Text style={styles.buttonText}>Clear</Text>
         </TouchableOpacity>
 
         {/* SignUp Button */}
-        <TouchableOpacity style={styles.signUpView} onPress={handleSignUp}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+        <TouchableOpacity style={[styles.buttonConatiner,{backgroundColor:'#003049'}]} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
+      </View>
+
+      <View style={styles.OrContainer}>
+        <View style={styles.Or}>
+
+        </View>
+        <View style={styles.OrView}>
+          <Text style={styles.OrText}>OR</Text>
+        </View>
+        <View style={styles.Or1}>
+
+        </View>
       </View>
 
       {/* Sign in  */}
-      <View style={{ flexDirection: 'row', marginTop: 35 }}>
-        <Text style={styles.signInSentence}>Already have an account ?</Text>
-        <TouchableOpacity style={styles.signInView} onPress={() => Navigation.navigate('PSignIn')} >
-          <Text style={styles.signInText}>Sign In</Text>
+      <View style={styles.ButtomConatiner}>
+        <Text style={styles.signInText}>Already have an account ?</Text>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#081c15' }]} onPress={() => Navigation.navigate('PSignIn')} >
+          <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
 
-    </KeyboardAwareScrollView>
+    </View>
   )
 }
 
@@ -199,95 +212,71 @@ const styles = StyleSheet.create({
 
   Container: {
     flex: normalize(1),
-    backgroundColor: '#8d99ae'
-  },
-  Image: {
-    height: normalize(150),
-    width: normalize(265),
-    borderWidth: normalize(3),
-    borderRadius: normalize(15),
-    marginLeft: normalize(55),
-    marginBlock: normalize(30),
-    borderColor: '#ffb703',
 
   },
-  TextInputView: {
-
-    borderWidth: normalize(1),
+  imageConatiner: {
+    width: '40%',
+    height: '15%',
     marginTop: normalize(5),
-    width: '80%',
-    borderRadius: normalize(10),
-    marginLeft: normalize(40),
-    backgroundColor: '#ccd5ae',
-    borderColor: '#450920',
-
+    marginLeft: normalize(10),
+  },
+  inputContainer: {
+    borderBottomWidth: 1,
+    marginTop: normalize(10),
+    width: '90%',
+    marginLeft: normalize(15),
+  },
+  input: {
 
   },
-  TextInput: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-
-  },
-  ButtomView: {
+  OrContainer: {
     flexDirection: 'row',
-    marginTop: normalize(30)
+    alignItems: 'center',
+    marginTop: normalize(25),
   },
-  clearView: {
-    borderWidth: normalize(1),
-    width: normalize(100),
-    height: normalize(35),
-    marginLeft: normalize(75),
-    borderRadius: normalize(5),
-    backgroundColor: '#d90429',
-    borderColor: '#780000',
-    justifyContent: 'space-between',
-
-  },
-  clearText: {
-    fontWeight: 'bold',
-    fontSize: normalize(17),
-    textAlign: 'center',
-    padding: normalize(4),
-    color: '#fff'
-  },
-  signUpView: {
-    borderWidth: normalize(1),
-    width: normalize(100),
-    height: normalize(35),
-    marginLeft: normalize(30),
-    borderRadius: normalize(5),
-    backgroundColor: '#132a13',
-    borderColor: '#609947'
-  },
-  signUpText: {
-    fontWeight: 'bold',
-    fontSize: normalize(17),
-    textAlign: 'center',
-    padding: normalize(4),
-    color: '#fff'
-  },
-  signInSentence: {
-    fontWeight: 'bold',
-    fontSize: normalize(17),
+  Or: {
+    borderBottomWidth: 1,
+    width: '30%',
     marginLeft: normalize(40),
-    marginTop: normalize(5),
 
   },
-  signInView: {
-    borderWidth: normalize(1),
-    width: normalize(100),
-    height: normalize(35),
-    borderRadius: normalize(5),
+  Or1: {
+    borderBottomWidth: 1,
+    width: '30%',
+    marginLeft: normalize(15),
 
-    backgroundColor: '#003049',
-    borderColor: '#bfdbf7'
+  },
+  OrView: {
+
+  },
+  OrText: {
+    fontWeight: 'bold',
+    fontSize: normalize(15),
+    marginLeft: normalize(25),
+
+  },
+  ButtomConatiner: {
+    flexDirection: 'row',
+    marginTop: normalize(30),
+  },
+  buttonConatiner: {
+    borderWidth: 1,
+    width: '45%',
+    height: normalize(30),
+    marginLeft: normalize(10),
+    borderRadius: normalize(5),
+  },
+  buttonText: {
+    textAlign: 'center',
+    padding: normalize(5),
+    fontWeight: 'bold',
+    color: '#fff'
   },
   signInText: {
     fontWeight: 'bold',
-    padding: normalize(5),
-    fontSize: normalize(17),
-    color: '#fff',
-    textAlign: 'center'
-  },
+    fontSize: normalize(14),
+    marginLeft: normalize(20),
+  }
 
 })
+
