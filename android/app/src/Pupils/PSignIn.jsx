@@ -8,7 +8,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const scale = (size) => (screenWidth / 375) * size;
 const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 const PSignIn = () => {
-  const [registation, setRegistation] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,17 +29,17 @@ const PSignIn = () => {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password || !registation) {
+    if (!email || !password || !username) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
 
     try {
       await auth().signInWithEmailAndPassword(email, password);
-      Alert.alert('Success', `Welcome back, Registration No:${registation}`);
+      Alert.alert('Success', `Welcome back, ${username}`);
       Navigation.navigate('PHome');
       setEmail('');
-      setRegistation('');
+      setUsername('');
       setPassword('');
     } catch (error) {
       Alert.alert('Error', error.message);
@@ -56,10 +56,10 @@ const PSignIn = () => {
       {/* Registration Number */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="registration number"
+          placeholder="username"
           style={styles.input}
-          value={registation}
-          onChangeText={setRegistation}
+          value={username}
+          onChangeText={setUsername}
         />
       </View>
 
