@@ -49,25 +49,25 @@ const PSignIn = () => {
   return (
     <View style={styles.Container}>
       {/* Image */}
-      <View>
-        <Image source={require('./studentSignIn.jpg')} style={styles.Image} />
-      </View>
+
+      <Image source={require('./studentSignIn.jpg')} style={styles.ImageContainer} />
+
 
       {/* Registration Number */}
-      <View style={styles.TextInputView}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Registration Number"
-          style={styles.TextInput}
+          placeholder="registration number"
+          style={styles.input}
           value={registation}
           onChangeText={setRegistation}
         />
       </View>
 
       {/* Email */}
-      <View style={styles.TextInputView}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Email"
-          style={styles.TextInput}
+          placeholder="email"
+          style={styles.input}
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -75,33 +75,47 @@ const PSignIn = () => {
       </View>
 
       {/* Password */}
-      <View style={styles.TextInputView}>
+      <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Password"
-          style={styles.TextInput}
+          placeholder="password"
+          style={styles.input}
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
       </View>
 
-      <View style={styles.ButtomView}>
+      <View style={styles.ButtomContainer}>
         {/* Forget Password button */}
-        <TouchableOpacity style={styles.forgetPasswordView} onPress={forgetPasswordFields}>
-          <Text style={styles.forgetPasswordText}>Forget Password</Text>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#6a040f' }]} onPress={forgetPasswordFields}>
+          <Text style={styles.buttonText}>Forget Password</Text>
         </TouchableOpacity>
 
         {/* SignIn Button */}
-        <TouchableOpacity style={styles.signInView} onPress={handleSignIn}>
-          <Text style={styles.signInText}>Sign In</Text>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#081c15' }]} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>
       </View>
 
+
+      <View style={styles.OrContainer}>
+        <View style={styles.Or}>
+
+        </View>
+        <View style={styles.OrView}>
+          <Text style={styles.OrText}>OR</Text>
+        </View>
+        <View style={styles.Or1}>
+
+        </View>
+      </View>
+
+
       {/* Sign Up */}
-      <View style={{ flexDirection: 'row', marginTop: 35 }}>
-        <Text style={styles.signUpSentence}>Create a new account ?</Text>
+      <View style={styles.SignUpConatiner}>
+        <Text style={styles.signUpText}>Create a new account ?</Text>
         <TouchableOpacity style={styles.signUpView} onPress={() => Navigation.navigate('PSignUp')}>
-          <Text style={styles.signUpText}>Sign Up</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -112,92 +126,89 @@ export default PSignIn;
 
 const styles = StyleSheet.create({
   Container: {
-    flex: normalize(1),
-    backgroundColor: '#bfdbf7',
+    flex: 1,
+
   },
-  Image: {
-    height: normalize(200),
-    width: normalize(250),
-    borderWidth: normalize(1),
-    borderRadius: normalize(15),
-    marginLeft: normalize(60),
-    marginTop: normalize(30),
-    marginBlock: normalize(30),
-    borderColor: '#5f0f40',
-  },
-  TextInputView: {
-    borderWidth: normalize(1),
+  ImageContainer: {
+    width: '45%',
+    height: '15%',
     marginTop: normalize(10),
-    width: '85%',
-    borderRadius: normalize(10),
-    marginLeft: normalize(30),
-    backgroundColor: '#ccd5ae',
-    borderColor: '#450920',
+    marginLeft: normalize(10),
 
   },
-  TextInput: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    padding: normalize(10),
-    height: normalize(40),
+  inputContainer: {
+    borderBottomWidth: normalize(1),
+    marginTop: normalize(15),
+    width: '90%',
+    marginLeft: normalize(15),
 
   },
-  ButtomView: {
+  input: {
+
+  },
+  ButtomContainer: {
     flexDirection: 'row',
-    marginTop: normalize(30),
+
+
   },
-  forgetPasswordView: {
+  buttonConatiner: {
+    width: '40%',
+    height: normalize(35),
     borderWidth: normalize(1),
-    width: '35%',
-    height: normalize(40),
-    marginLeft: normalize(45),
+    marginTop: normalize(25),
+    marginLeft: normalize(25),
     borderRadius: normalize(5),
-    backgroundColor: '#d90429',
-    borderColor: '#780000',
   },
-  forgetPasswordText: {
+  buttonText: {
     fontWeight: 'bold',
-    fontSize: normalize(15),
     textAlign: 'center',
     padding: normalize(5),
-    color: '#fff',
+    color: '#fff'
   },
-  signInView: {
-    borderWidth: normalize(1),
-    width: '40%',
-    height: normalize(40),
-    marginLeft: normalize(15),
-    borderRadius: normalize(5),
-    backgroundColor: '#132a13',
-    borderColor: '#609947',
+  OrContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: normalize(20),
   },
-  signInText: {
+  Or: {
+    borderBottomWidth: 1,
+    width: '30%',
+    marginLeft: normalize(40),
+
+  },
+  Or1: {
+    borderBottomWidth: 1,
+    width: '30%',
+    marginLeft: normalize(25),
+
+  },
+  OrView: {
+
+  },
+  OrText: {
     fontWeight: 'bold',
     fontSize: normalize(15),
-    textAlign: 'center',
-    padding: normalize(6),
-    color: '#fff',
+    marginLeft: normalize(25),
+
   },
-  signUpSentence: {
-    fontWeight: 'bold',
-    fontSize: normalize(17),
-    marginLeft: normalize(40),
-    marginTop: normalize(5),
-  },
-  signUpView: {
-    borderWidth: normalize(1),
-    width: '30%',
-    height: normalize(40),
-    borderRadius: normalize(5),
-    marginLeft: normalize(15),
-    backgroundColor: '#023047',
-    borderColor: '#bfdbf7',
+  SignUpConatiner: {
+    flexDirection: 'row',
+    marginTop: normalize(20),
   },
   signUpText: {
     fontWeight: 'bold',
-    padding: normalize(6),
-    textAlign:'center',
-    fontSize: normalize(15),
-    color: '#fff',
+    fontSize: normalize(14),
+    marginLeft: normalize(20),
+    padding: normalize(5),
   },
+  signUpView: {
+    borderWidth: normalize(1),
+    width: '40%',
+    height: normalize(35),
+    marginLeft: normalize(25),
+    borderRadius: normalize(5),
+    backgroundColor: '#073b4c'
+
+  }
+
 });
