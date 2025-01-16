@@ -11,9 +11,6 @@ import AdminSignUp from './android/app/src/Admin/AdminSignUp';
 import AdminSignIn from './android/app/src/Admin/AdminSignIn';
 import FSignIn from './android/app/src/Faculty/FSignIn';
 import FHome from './android/app/src/Faculty/FHome';
-import FChat from './android/app/src/Faculty/FChat';
-import FNotification from './android/app/src/Faculty/FNotification';
-import FSetting from './android/app/src/Faculty/FSetting';
 import FAttendance from './android/app/src/Faculty/FAttendance';
 import SSignUp from './android/app/src/Supporters/SSignUp';
 import SSignIn from './android/app/src/Supporters/SSignIn';
@@ -41,9 +38,7 @@ const App = () => {
         <Stack.Screen name='FSignIn' component={FSignIn} />
         <Stack.Screen name='FHome' component={FHome} />
         <Stack.Screen name='FAttendance' component={FAttendance} />
-        <Stack.Screen name='FNotification' component={FNotification} />
-        <Stack.Screen name='FSetting' component={FSetting} />
-        <Stack.Screen name='FChat' component={FChat} />
+       
 
         {/* Supporters */}
         <Stack.Screen name='SSignIn' component={SSignIn} />
