@@ -18,7 +18,7 @@ const PSignUp = ({ navigate }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [conformPassword, setConformPassword] = useState('');
+  const [batch, setBatch] = useState('');
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
 
@@ -27,20 +27,17 @@ const PSignUp = ({ navigate }) => {
     setEmail('');
     setPhone('');
     setPassword('');
-    setConformPassword('');
+    setBatch('');
     setName('');
   }
 
   // Sign up function
   const handleSignUp = async () => {
-    if (!registation || !email || !phone || !password || !conformPassword) {
+    if (!registation || !email || !phone || !password || !batch) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
-    if (password != conformPassword) {
-      Alert.alert('Error', 'Password do not match');
-      return;
-    }
+    
 
     // Firebase authentication
     try {
@@ -69,6 +66,7 @@ const PSignUp = ({ navigate }) => {
         email: email,
         registation: registation,
         phone: phone,
+        batch: batch,
         CreatedAt: firestore.FieldValue.serverTimestamp(),
 
       });
@@ -78,7 +76,7 @@ const PSignUp = ({ navigate }) => {
       setEmail('');
       setPhone('');
       setPassword('');
-      setConformPassword('');
+      setBatch('');
       setName('');
     } catch (error) {
       Alert.alert('Error', error.message);
@@ -123,7 +121,15 @@ const PSignUp = ({ navigate }) => {
 
         />
       </View>
-
+      {/* conform password */}
+      <View style={styles.inputContainer}>
+        <TextInput placeholder='batch'
+          style={styles.input}
+          value={batch}
+          onChangeText={setBatch}
+          secureTextEntry={true}
+        />
+      </View>
 
       {/* Email */}
       <View style={styles.inputContainer}>
@@ -160,24 +166,16 @@ const PSignUp = ({ navigate }) => {
       </View>
 
 
-      {/* conform password */}
-      <View style={styles.inputContainer}>
-        <TextInput placeholder='conform password'
-          style={styles.input}
-          value={conformPassword}
-          onChangeText={setConformPassword}
-          secureTextEntry={true}
-        />
-      </View>
+
 
       <View style={styles.ButtomConatiner}>
         {/* clear button */}
-        <TouchableOpacity style={[styles.buttonConatiner,{backgroundColor:'#6a040f'}]} onPress={clearFields}>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#6a040f' }]} onPress={clearFields}>
           <Text style={styles.buttonText}>Clear</Text>
         </TouchableOpacity>
 
         {/* SignUp Button */}
-        <TouchableOpacity style={[styles.buttonConatiner,{backgroundColor:'#003049'}]} onPress={handleSignUp}>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#003049' }]} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -215,8 +213,8 @@ const styles = StyleSheet.create({
 
   },
   imageConatiner: {
-    width: '40%',
-    height: '15%',
+    width: '30%',
+    height: '10%',
     marginTop: normalize(5),
     marginLeft: normalize(10),
   },

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FChat from './FChat';  // Make sure you have FChat component
-import FNotification from './FNotification';  // Make sure you have FNotification component
-import FSetting from './FSetting';  // Make sure you have FSetting component
+import FChat from './FChat';  
+import FNotification from './FNotification';  
+import FSetting from './FSetting';  
 
 const { width: ScreenWidth, height: ScreenHeight } = Dimensions.get('window');
 const scale = (size) => (ScreenWidth / 375) * size;

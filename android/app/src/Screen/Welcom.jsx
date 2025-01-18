@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
         marginLeft: 50
     },
     adminView: {
-        // borderWidth: 1,
+       
         width: 150,
         height: 200,
         borderRadius: 10,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 
     },
     teacherView: {
-        // borderWidth: 1,
+      
         width: 150,
         marginLeft: 15,
         borderRadius: 15,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
         marginLeft: 50
     },
     SupportStaffView: {
-        // borderWidth: 1,
+        
         width: 150,
         height: 200,
         borderRadius: 15,
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
     },
     pupilsView: {
-        // borderWidth:1,
+        
         width: 150,
         marginLeft: 15,
         borderRadius: 15,
