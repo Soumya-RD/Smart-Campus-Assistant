@@ -93,8 +93,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '60%',
         fontSize: normalize(15),
-        marginVertical: normalize(20),
+        marginVertical: normalize(15),
         marginHorizontal: normalize(32),
+        borderRadius:normalize(5),
 
     },
 

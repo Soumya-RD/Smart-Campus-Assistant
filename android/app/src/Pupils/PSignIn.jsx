@@ -39,10 +39,10 @@ const PSignIn = () => {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', `Welcome back, ${username}`);
       Navigation.navigate('PHome', { reg: reg });
-      // setEmail('');
-      // setUsername('');
-      // setPassword('');
-      // setReg('');
+      setEmail('');
+      setUsername('');
+      setPassword('');
+      setReg('');
     } catch (error) {
       Alert.alert('Error', error.message);
     }
@@ -60,6 +60,7 @@ const PSignIn = () => {
         <TextInput
           placeholder="username"
           style={styles.input}
+          placeholderTextColor='#000'
           value={username}
           onChangeText={setUsername}
         />
@@ -69,6 +70,7 @@ const PSignIn = () => {
         <TextInput
           placeholder="registation number"
           style={styles.input}
+          placeholderTextColor='#000'
           value={reg}
           onChangeText={setReg}
           keyboardType='Phone-pad'
@@ -80,6 +82,7 @@ const PSignIn = () => {
         <TextInput
           placeholder="email"
           style={styles.input}
+          placeholderTextColor='#000'
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -91,6 +94,7 @@ const PSignIn = () => {
         <TextInput
           placeholder="password"
           style={styles.input}
+          placeholderTextColor='#000'
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -156,6 +160,7 @@ const styles = StyleSheet.create({
 
   },
   input: {
+    fontWeight: 'bold',
 
   },
   ButtomContainer: {
@@ -167,9 +172,9 @@ const styles = StyleSheet.create({
     width: '40%',
     height: normalize(35),
     borderWidth: normalize(1),
-    marginTop: normalize(25),
-    marginLeft: normalize(25),
     borderRadius: normalize(5),
+    marginHorizontal: normalize(17),
+    marginVertical: normalize(35),
   },
   buttonText: {
     fontWeight: 'bold',
@@ -180,18 +185,18 @@ const styles = StyleSheet.create({
   OrContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: normalize(20),
+    marginHorizontal: normalize(100),
   },
   Or: {
     borderBottomWidth: 1,
     width: '30%',
-    marginLeft: normalize(40),
+  
 
   },
   Or1: {
     borderBottomWidth: 1,
     width: '30%',
-    marginLeft: normalize(25),
+
 
   },
   OrView: {
@@ -200,24 +205,23 @@ const styles = StyleSheet.create({
   OrText: {
     fontWeight: 'bold',
     fontSize: normalize(15),
-    marginLeft: normalize(25),
+    marginHorizontal: normalize(22),
+
 
   },
   SignUpConatiner: {
     flexDirection: 'row',
-    marginTop: normalize(20),
+    marginVertical: normalize(20),
   },
   signUpText: {
     fontWeight: 'bold',
     fontSize: normalize(14),
-    marginLeft: normalize(20),
-    padding: normalize(5),
+    marginHorizontal: normalize(30),
   },
   signUpView: {
     borderWidth: normalize(1),
     width: '40%',
     height: normalize(35),
-    marginLeft: normalize(25),
     borderRadius: normalize(5),
     backgroundColor: '#073b4c'
 
