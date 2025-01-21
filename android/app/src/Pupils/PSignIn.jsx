@@ -11,6 +11,7 @@ const PSignIn = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [reg, setReg] = useState('');
 
   const Navigation = useNavigation();
 
@@ -29,7 +30,7 @@ const PSignIn = () => {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password || !username) {
+    if (!email || !password || !username || !reg) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
@@ -37,10 +38,11 @@ const PSignIn = () => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', `Welcome back, ${username}`);
-      Navigation.navigate('PHome');
-      setEmail('');
-      setUsername('');
-      setPassword('');
+      Navigation.navigate('PHome', { reg: reg });
+      // setEmail('');
+      // setUsername('');
+      // setPassword('');
+      // setReg('');
     } catch (error) {
       Alert.alert('Error', error.message);
     }
@@ -53,13 +55,23 @@ const PSignIn = () => {
       <Image source={require('./studentSignIn.jpg')} style={styles.ImageContainer} />
 
 
-      {/* Registration Number */}
+      {/* name */}
       <View style={styles.inputContainer}>
         <TextInput
           placeholder="username"
           style={styles.input}
           value={username}
           onChangeText={setUsername}
+        />
+      </View>
+      {/* Registration Number */}
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="registation number"
+          style={styles.input}
+          value={reg}
+          onChangeText={setReg}
+          keyboardType='Phone-pad'
         />
       </View>
 

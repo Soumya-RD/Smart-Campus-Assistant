@@ -56,29 +56,52 @@ const FAttendance = () => {
       ...prevStatus,
       [studentId]: status, // Update the attendance status for the student
     }));
+    
   };
 
   const handleSubmitAttendance = async () => {
+    // Validate that all students have an attendance status
+    const allStudentsMarked = atnData.every((student) => attendanceStatus[student.id]);
+    if (!allStudentsMarked) {
+      Alert.alert('Error', 'Please mark attendance for all students.');
+      return;
+    }
+  
     try {
       // Count the number of Present and Absent students
       const presentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Present');
       const absentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Absent');
-
+  
       const attendanceReport = {
         totalPresent: presentStudents.length,
         totalAbsent: absentStudents.length,
         presentList: presentStudents.map((student) => student.id), // List of students marked as present
         date: new Date(),
       };
-
+  
       // Save the attendance report to the attendance collection
-      await firestore().collection('attendance').add(attendanceReport);
-
-      Alert.alert('Success', 'Attendance report has been successfully stored.');
+      await firestore().collection('mca2nd').doc('atn').collection('attendance').add(attendanceReport);
+  
+      // Update the student's document with their attendance status
+      for (const student of atnData) {
+        const status = attendanceStatus[student.id];
+        
+        // Update each student's attendance status in their Firestore document
+        await firestore()
+          .collection('mca2nd')
+          .doc(student.id) // Assuming the student ID is used as the document ID
+          .update({
+            attendanceStatus: status, // Adding or updating the attendanceStatus field
+            lastUpdated: new Date(), // Optional, to track when the status was last updated
+          });
+      }
+  
+      Alert.alert('Success', 'Attendance report has been successfully stored and student statuses updated.');
     } catch (error) {
       Alert.alert('Error', 'There was an error while saving the attendance report.');
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -143,7 +166,6 @@ export default FAttendance;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     backgroundColor: '#edf6f9',
     paddingHorizontal: normalize(10),
     paddingVertical: normalize(5),
@@ -157,7 +179,7 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(10),
     marginVertical: normalize(5),
     marginHorizontal: normalize(10),
-
+    marginBottom: normalize(40),
   },
   fieldContainer: {
     marginBottom: normalize(10),
@@ -168,8 +190,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingHorizontal: normalize(5),
     paddingVertical: normalize(5),
-    color: '#fff'
-
+    color: '#fff',
   },
   itemContainer: {
     flexDirection: 'row',
@@ -187,7 +208,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     paddingVertical: normalize(5),
     paddingHorizontal: normalize(10),
-
   },
   attendanceButtons: {
     flexDirection: 'row',
@@ -200,7 +220,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(15),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white', // default background color
+    backgroundColor: 'white',
   },
   Abutton: {
     borderWidth: 1,
@@ -209,7 +229,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(15),
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white', // default background color
+    backgroundColor: 'white',
   },
   text: {
     fontWeight: 'bold',

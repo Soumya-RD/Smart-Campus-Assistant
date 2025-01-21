@@ -59,7 +59,7 @@ const FHome = () => {
   }
 
   return (
-    <Tab.Navigator initialRouteName="FHome">
+    <Tab.Navigator initialRouteName="FHome" >
       <Tab.Screen name="FHome" options={{ headerShown: false }}>
         {() => (
           <View style={styles.Container}>
@@ -119,9 +119,9 @@ const FHome = () => {
         )}
       </Tab.Screen>
 
-      <Tab.Screen name="FChat" component={FChat} />
-      <Tab.Screen name="FNotification" component={FNotification} />
-      <Tab.Screen name="FSetting" component={FSetting} />
+      <Tab.Screen name="Chat" component={FChat} />
+      <Tab.Screen name="Notification" component={FNotification} />
+      <Tab.Screen name="Setting" component={FSetting} />
     </Tab.Navigator>
   );
 };
