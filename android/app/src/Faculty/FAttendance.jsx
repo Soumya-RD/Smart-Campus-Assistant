@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, View, TouchableOpacity, FlatList, Dimensions, PixelRatio } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
+import { useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width: ScreenWidth, height: ScreenHeight } = Dimensions.get('window');
 const scale = (size) => (ScreenWidth / 375) * size;
 const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 
 const FAttendance = () => {
+  const route = useRoute();
+  const { batch } = route.params;
+  const { tid } = route.params;
+  const { subject } = route.params;
+  const navigation = useNavigation();
   const [atnData, setAtnData] = useState([]);
   const [classData, setClassData] = useState([]);
   const [attendanceStatus, setAttendanceStatus] = useState({});
@@ -14,15 +21,15 @@ const FAttendance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch student data
-        const studentCollection = await firestore().collection('mca2nd').get();
 
-        // Fetch class data for faculty T002, class c02
+        const studentCollection = await firestore().collection(batch).get();
+
+
         const classCollection = await firestore()
           .collection('faculty')
           .doc('T002')
           .collection('class')
-          .doc('c02')
+          .doc(subject)
           .get();
 
         if (!studentCollection.empty) {
@@ -31,7 +38,7 @@ const FAttendance = () => {
             ...doc.data(),
           }));
 
-          // Sorting students by registration number
+
           const sortedData = studentData.sort((a, b) => a.registrationNumber - b.registrationNumber);
           setAtnData(sortedData);
         } else {
@@ -54,58 +61,60 @@ const FAttendance = () => {
   const handleAttendance = (studentId, status) => {
     setAttendanceStatus((prevStatus) => ({
       ...prevStatus,
-      [studentId]: status, // Update the attendance status for the student
+      [studentId]: status,
     }));
-    
+
   };
 
   const handleSubmitAttendance = async () => {
-    // Validate that all students have an attendance status
+
     const allStudentsMarked = atnData.every((student) => attendanceStatus[student.id]);
     if (!allStudentsMarked) {
       Alert.alert('Error', 'Please mark attendance for all students.');
       return;
     }
-  
+
     try {
-      // Count the number of Present and Absent students
+
       const presentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Present');
       const absentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Absent');
-  
+
       const attendanceReport = {
         totalPresent: presentStudents.length,
         totalAbsent: absentStudents.length,
-        presentList: presentStudents.map((student) => student.id), // List of students marked as present
+        presentList: presentStudents.map((student) => student.id),
         date: new Date(),
       };
-  
-      // Save the attendance report to the attendance collection
-      await firestore().collection('mca2nd').doc('atn').collection('attendance').add(attendanceReport);
-  
-      // Update the student's document with their attendance status
+
+
+      await firestore().collection(batch).doc('atn').collection('attendance').add(attendanceReport);
+
+
       for (const student of atnData) {
         const status = attendanceStatus[student.id];
-        
-        // Update each student's attendance status in their Firestore document
+
+
         await firestore()
-          .collection('mca2nd')
-          .doc(student.id) // Assuming the student ID is used as the document ID
+          .collection(batch)
+          .doc(student.id)
           .update({
-            attendanceStatus: status, // Adding or updating the attendanceStatus field
-            lastUpdated: new Date(), // Optional, to track when the status was last updated
+            attendanceStatus: status,
+            lastUpdated: new Date(),
           });
       }
-  
+      // navigation.navigate('FHome');
       Alert.alert('Success', 'Attendance report has been successfully stored and student statuses updated.');
+
     } catch (error) {
       Alert.alert('Error', 'There was an error while saving the attendance report.');
     }
   };
-  
+
 
   return (
     <View style={styles.container}>
       {/* Display Class Information */}
+
       <FlatList
         data={classData}
         keyExtractor={(item) => item.id}
@@ -171,19 +180,19 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(5),
   },
   classContainer: {
-    paddingHorizontal: normalize(10),
-    borderRadius: normalize(10),
-    backgroundColor: '#073b4c',
+    // paddingHorizontal: normalize(10),
+    backgroundColor: '#000',
     flexDirection: 'row',
-    width: '95%',
+    width: '90%',
+    marginHorizontal: normalize(15),
+    marginVertical: normalize(20),
+    height: normalize(100),
     paddingVertical: normalize(10),
-    marginVertical: normalize(5),
-    marginHorizontal: normalize(10),
-    marginBottom: normalize(40),
+    paddingHorizontal: normalize(20),
   },
   fieldContainer: {
-    marginBottom: normalize(10),
     width: '60%',
+    marginHorizontal: normalize(5),
   },
   field: {
     fontSize: normalize(15),
@@ -195,12 +204,9 @@ const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: normalize(15),
-    paddingVertical: normalize(10),
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    backgroundColor: '#fff',
-    borderRadius: normalize(8),
+    backgroundColor: '#edf2f4',
+    marginVertical: normalize(10),
+
   },
   studentText: {
     flex: 1,
@@ -212,12 +218,15 @@ const styles = StyleSheet.create({
   attendanceButtons: {
     flexDirection: 'row',
     width: '25%',
-    height: normalize(30),
+    height: normalize(40),
+
   },
   Pbutton: {
     borderWidth: 1,
     width: '35%',
+    height: normalize(30),
     borderRadius: normalize(15),
+    marginVertical: normalize(5),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
@@ -225,7 +234,9 @@ const styles = StyleSheet.create({
   Abutton: {
     borderWidth: 1,
     width: '35%',
-    marginLeft: normalize(15),
+    height: normalize(30),
+    marginHorizontal: normalize(15),
+    marginVertical: normalize(5),
     borderRadius: normalize(15),
     justifyContent: 'center',
     alignItems: 'center',

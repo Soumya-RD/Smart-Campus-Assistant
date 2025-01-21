@@ -42,18 +42,18 @@ const PHome = () => {
       <Tab.Screen
         name=" "
         component={() => (
-         
-            <FlatList
-              data={atnData}
-              keyExtractor={item => item.id}
-              renderItem={({ item }) => (
-                <View>
-                  
-                  <Text>{item.attendanceStatus}</Text>
-                </View>
-              )}
-            />
-          
+
+          <FlatList
+            data={atnData}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View>
+
+                <Text>{item.attendanceStatus}</Text>
+              </View>
+            )}
+          />
+
         )}
       />
       <Tab.Screen name="Chat" component={PChat} />

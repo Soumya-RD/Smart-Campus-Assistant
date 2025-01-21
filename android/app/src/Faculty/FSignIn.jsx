@@ -1,5 +1,5 @@
-import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator, TextInput ,} from 'react-native';
-import React, { useState,useEffect } from 'react';
+import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, ActivityIndicator, TextInput, } from 'react-native';
+import React, { useState, useEffect } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import auth from '@react-native-firebase/auth';
@@ -14,6 +14,7 @@ const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 const FSignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [teacherId, setTeacherId] = useState('');
   const [loading, setLoading] = useState(false);
   // New Code
   const [facultyData, setFacultyData] = useState([]);
@@ -41,7 +42,7 @@ const FSignIn = () => {
   // new Code
 
   const handleSignIn = async () => {
-    if (!email || !password) {
+    if (!email || !password || !teacherId) {
       Alert.alert('Error', 'Please fill all the fields');
       return;
     }
@@ -70,9 +71,10 @@ const FSignIn = () => {
 
 
       await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate('FHome');
-      setEmail('');
-      setPassword('');
+      navigation.navigate('FHome', { tid: teacherId });
+      // setEmail('');
+      // setPassword('');
+      // setTeacherId('');
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
         Alert.alert('Error', 'No user found with this email.');
@@ -104,14 +106,23 @@ const FSignIn = () => {
       <Image source={require('./FSignIn.jpg')} style={styles.ImageContainer} />
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Email"
+          placeholder="teacher id"
           style={styles.input}
+          placeholderTextColor='#000'
+          value={teacherId}
+          onChangeText={setTeacherId}
+        />
+        <TextInput
+          placeholder="email"
+          style={styles.input}
+          placeholderTextColor='#000'
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
-          placeholder="Password"
+          placeholder="password"
           style={styles.input}
+          placeholderTextColor='#000'
           value={password}
           onChangeText={setPassword}
           secureTextEntry
@@ -141,48 +152,50 @@ const styles = StyleSheet.create({
   },
   ImageContainer: {
     width: '30%',
-    height: '80%',
+    height: normalize(100),
     borderRadius: normalize(5),
-    marginLeft: normalize(5),
-    marginTop: normalize(5),
+    marginHorizontal: normalize(20),
+    marginVertical: normalize(15),
   },
   inputContainer: {
     alignItems: 'center',
-    marginTop: normalize(20),
+    marginVertical: normalize(20),
   },
   input: {
     borderBottomWidth: 1,
     width: '90%',
-    marginTop: normalize(10),
+    fontWeight: 'bold',
+    marginVertical: normalize(10),
 
   },
   ButtomContainer: {
     flexDirection: 'row',
-    marginTop: normalize(25),
+    marginVertical: normalize(15),
 
   },
   resetPasswordButton: {
     width: '40%',
-    height: normalize(35),
-    borderWidth: 1,
-    marginLeft: normalize(20),
+    height: normalize(40),
     borderRadius: normalize(5),
-    backgroundColor: '#9d0208'
+    backgroundColor: '#9d0208',
+    marginHorizontal: normalize(25),
+    borderWidth: 1
   },
   signInButton: {
     width: '40%',
-    height: normalize(35),
-    borderWidth: 1,
-    marginLeft: normalize(35),
+    height: normalize(40),
     borderRadius: normalize(5),
-    backgroundColor: '#264653'
+    backgroundColor: '#073b4c',
+    borderWidth: 1
   },
   ButtonText: {
     fontWeight: 'bold',
     textAlign: 'center',
-    padding: normalize(5),
     fontSize: normalize(14),
-    color: '#fff'
+
+    color: '#fff',
+    paddingVertical: normalize(7),
+
 
   },
 

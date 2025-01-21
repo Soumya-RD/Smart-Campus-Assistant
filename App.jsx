@@ -26,29 +26,29 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Welcom'>
-        <Stack.Screen name='Welcom' component={Welcom} />
-       
+        <Stack.Screen name='Welcom' component={Welcom} options={{ headerShown: false }} />
+
 
         {/* Admin */}
-        <Stack.Screen name='AdminSignUp' component={AdminSignUp} />
-        <Stack.Screen name='AdminSignIn' component={AdminSignIn} />
+        <Stack.Screen name='AdminSignUp' component={AdminSignUp} options={{ headerShown: false }} />
+        <Stack.Screen name='AdminSignIn' component={AdminSignIn} options={{ headerShown: false }} />
 
         {/* faculty */}
 
-        <Stack.Screen name='FSignIn' component={FSignIn} />
-        <Stack.Screen name='FHome' component={FHome} />
-        <Stack.Screen name='FAttendance' component={FAttendance} />
-       
+        <Stack.Screen name='FSignIn' component={FSignIn} options={{ headerShown: false }} />
+        <Stack.Screen name='FHome' component={FHome} options={{ headerShown: false }} />
+        <Stack.Screen name='FAttendance' component={FAttendance} options={{ headerShown: false }} />
+
 
         {/* Supporters */}
-        <Stack.Screen name='SSignIn' component={SSignIn} />
-        <Stack.Screen name='SSignUp' component={SSignUp} />
+        <Stack.Screen name='SSignIn' component={SSignIn} options={{ headerShown: false }} />
+        <Stack.Screen name='SSignUp' component={SSignUp} options={{ headerShown: false }} />
 
 
         {/* Pupils */}
-        <Stack.Screen name='PSignIn' component={PSignIn} />
-        <Stack.Screen name='PSignUp' component={PSignUp} />
-        <Stack.Screen name='PHome' component={PHome} />
+        <Stack.Screen name='PSignIn' component={PSignIn} options={{ headerShown: false }} />
+        <Stack.Screen name='PSignUp' component={PSignUp} options={{ headerShown: false }} />
+        <Stack.Screen name='PHome' component={PHome} options={{ headerShown: false }} />
       </Stack.Navigator>
 
     </NavigationContainer>

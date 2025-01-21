@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#edf2f4'
     },
     textConatiner: {
-        marginVertical: normalize(30),
+        marginVertical: normalize(40),
     },
     text: {
         fontWeight: 'bold',
@@ -65,23 +65,25 @@ const styles = StyleSheet.create({
     },
     cardContainer: {
         flexDirection: 'row',
-        width: '95%',
-        marginVertical: normalize(20),
+        width: '90%',
+        marginVertical: normalize(15),
 
 
     },
     card: {
         width: '40%',
         backgroundColor: '#264653',
-        marginHorizontal: normalize(22),
-        borderRadius: normalize(15),
-        height: '100%'
+        marginHorizontal: normalize(25),
+        borderRadius: normalize(5),
+        height: '100%',
+        alignItems: 'center',
+        
     },
     image: {
 
         height: normalize(75),
-        width: '55%',
-        marginHorizontal: normalize(35),
+        width: '65%',
+        height: normalize(90),
         marginVertical: normalize(30),
         borderRadius: normalize(5),
 
@@ -93,9 +95,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width: '60%',
         fontSize: normalize(15),
-        marginVertical: normalize(15),
-        marginHorizontal: normalize(32),
-        borderRadius:normalize(5),
+        marginVertical: normalize(10),
+        borderRadius: normalize(5),
 
     },
 
