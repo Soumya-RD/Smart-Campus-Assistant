@@ -37,7 +37,7 @@ const PSignUp = ({ navigate }) => {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
-    
+
 
     // Firebase authentication
     try {
@@ -104,6 +104,7 @@ const PSignUp = ({ navigate }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder=' username'
           style={styles.input}
+          placeholderTextColor='#000'
           value={name}
           onChangeText={setName}
 
@@ -116,6 +117,7 @@ const PSignUp = ({ navigate }) => {
 
         <TextInput placeholder='registation number'
           style={styles.input}
+          placeholderTextColor='#000'
           value={registation}
           onChangeText={setRegistation}
 
@@ -125,6 +127,7 @@ const PSignUp = ({ navigate }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder='batch'
           style={styles.input}
+          placeholderTextColor='#000'
           value={batch}
           onChangeText={setBatch}
           secureTextEntry={true}
@@ -135,6 +138,7 @@ const PSignUp = ({ navigate }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder='email'
           style={styles.input}
+          placeholderTextColor='#000'
           value={email}
           onChangeText={setEmail}
           keyboardType="email-address"
@@ -146,6 +150,7 @@ const PSignUp = ({ navigate }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder='phone number'
           style={styles.input}
+          placeholderTextColor='#000'
           value={phone}
           onChangeText={setPhone}
           keyboardType='phone-pad'
@@ -157,6 +162,7 @@ const PSignUp = ({ navigate }) => {
       <View style={styles.inputContainer}>
         <TextInput placeholder='password'
           style={styles.input}
+          placeholderTextColor='#000'
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
@@ -170,12 +176,12 @@ const PSignUp = ({ navigate }) => {
 
       <View style={styles.ButtomConatiner}>
         {/* clear button */}
-        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#6a040f' }]} onPress={clearFields}>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#6a040f', marginHorizontal: normalize(10), }]} onPress={clearFields}>
           <Text style={styles.buttonText}>Clear</Text>
         </TouchableOpacity>
 
         {/* SignUp Button */}
-        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#003049' }]} onPress={handleSignUp}>
+        <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#003049', marginHorizontal: normalize(5), }]} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -207,7 +213,7 @@ const PSignUp = ({ navigate }) => {
 export default PSignUp
 
 const styles = StyleSheet.create({
-
+  // :normalize(),
   Container: {
     flex: normalize(1),
 
@@ -215,53 +221,51 @@ const styles = StyleSheet.create({
   imageConatiner: {
     width: '30%',
     height: '10%',
-    marginTop: normalize(5),
-    marginLeft: normalize(10),
+    marginHorizontal: normalize(15),
+    marginVertical: normalize(5),
   },
   inputContainer: {
     borderBottomWidth: 1,
-    marginTop: normalize(10),
+    marginVertical: normalize(7),
     width: '90%',
-    marginLeft: normalize(15),
+    marginHorizontal: normalize(15),
   },
   input: {
-
+    fontWeight: 'bold'
   },
   OrContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: normalize(25),
+    marginHorizontal: normalize(100),
+    marginVertical: normalize(20),
   },
   Or: {
     borderBottomWidth: 1,
     width: '30%',
-    marginLeft: normalize(40),
+
 
   },
   Or1: {
     borderBottomWidth: 1,
     width: '30%',
-    marginLeft: normalize(15),
 
-  },
-  OrView: {
 
   },
   OrText: {
     fontWeight: 'bold',
     fontSize: normalize(15),
-    marginLeft: normalize(25),
+    marginHorizontal: normalize(22),
+
 
   },
   ButtomConatiner: {
     flexDirection: 'row',
-    marginTop: normalize(30),
+    marginVertical: normalize(25),
   },
   buttonConatiner: {
     borderWidth: 1,
     width: '45%',
-    height: normalize(30),
-    marginLeft: normalize(10),
+    height: normalize(35),
     borderRadius: normalize(5),
   },
   buttonText: {
@@ -273,7 +277,7 @@ const styles = StyleSheet.create({
   signInText: {
     fontWeight: 'bold',
     fontSize: normalize(14),
-    marginLeft: normalize(20),
+    marginHorizontal: normalize(15),
   }
 
 })
