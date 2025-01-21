@@ -1,33 +1,42 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AdminSignUp from '../Admin/AdminSignUp';
+
+const { width: ScreenWidth, height: ScreenHeight } = Dimensions.get('window')
+const scale = (size) => (ScreenWidth / 375) * size;
+const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
+
+
 const Welcom = ({ Navigate }) => {
     const Navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <Text style={[styles.welcomeText, { marginTop: 30 }]}>Once a part of</Text>
-            <Text style={styles.collegeNameText}>NMIET </Text>
-            <Text style={styles.welcomeText}>forever connected as one </Text>
-            <Text style={styles.extraText}>community !</Text>
+            <View style={styles.textConatiner}>
+                <Text style={styles.text}>Once a part of</Text>
+                <Text style={styles.text}>NMIET </Text>
+                <Text style={styles.text}>forever connected as one </Text>
+                <Text style={styles.text}>community !</Text>
+            </View>
 
-            <View style={styles.middleView} >
-                <TouchableOpacity style={styles.adminView} onPress={() => Navigation.navigate(AdminSignUp)}>
-                    <Image source={require('./admin.png')} style={styles.adminImage} />
+
+            <View style={styles.cardContainer} >
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate(AdminSignUp)}>
+                    <Image source={require('./admin.png')} style={styles.image} />
                     <Text style={styles.CardText}>Admins </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.teacherView} onPress={() => Navigation.navigate('FSignIn')} >
-                    <Image source={require('./teacher.jpg')} style={styles.teacherImage} />
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('FSignIn')} >
+                    <Image source={require('./teacher.jpg')} style={styles.image} />
                     <Text style={styles.CardText}>Faculty</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.bottomView} >
-                <TouchableOpacity style={styles.SupportStaffView} onPress={() => Navigation.navigate('SSignUp')}>
-                    <Image source={require('./NonTeaching.jpg')} style={styles.SupportStaffImage} />
+            <View style={styles.cardContainer}>
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('SSignUp')}>
+                    <Image source={require('./NonTeaching.jpg')} style={styles.image} />
                     <Text style={styles.CardText}>Supporters </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.pupilsView} onPress={() => Navigation.navigate('PSignIn')} >
-                    <Image source={require('./StudentCard.jpg')} style={styles.pupilsImage} />
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('PSignIn')} >
+                    <Image source={require('./StudentCard.jpg')} style={styles.image} />
                     <Text style={styles.CardText}>Pupils</Text>
                 </TouchableOpacity>
             </View>
@@ -39,103 +48,54 @@ const Welcom = ({ Navigate }) => {
 
 export default Welcom;
 
+
+// :normalize(),
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#edf2f4'
     },
-    welcomeText: {
-        fontWeight: 'bold',
-        fontSize: 18,
-        textAlign: 'center',
-        marginTop: 5
+    textConatiner: {
+        marginVertical: normalize(30),
     },
-    collegeNameText: {
+    text: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: normalize(17),
         textAlign: 'center'
     },
-    extraText: {
-        fontWeight: 'bold',
-        fontSize: 18,
-        textAlign: 'center'
-    },
-    middleView: {
+    cardContainer: {
         flexDirection: 'row',
-        marginTop: 20,
-        marginLeft: 50
-    },
-    adminView: {
-       
-        width: 150,
-        height: 200,
-        borderRadius: 10,
-        padding: 25,
-        backgroundColor: '#264653'
-    },
-    adminImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 15,
+        width: '95%',
+        marginVertical: normalize(20),
+
 
     },
-    teacherView: {
-      
-        width: 150,
-        marginLeft: 15,
-        borderRadius: 15,
-        padding: 25,
+    card: {
+        width: '40%',
         backgroundColor: '#264653',
+        marginHorizontal: normalize(22),
+        borderRadius: normalize(15),
+        height: '100%'
     },
-    teacherImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 15,
+    image: {
+
+        height: normalize(75),
+        width: '55%',
+        marginHorizontal: normalize(35),
+        marginVertical: normalize(30),
+        borderRadius: normalize(5),
 
     },
-    bottomView: {
-        flexDirection: 'row',
-        marginTop: 15,
-        marginLeft: 50
-    },
-    SupportStaffView: {
-        
-        width: 150,
-        height: 200,
-        borderRadius: 15,
-        padding: 25,
-        backgroundColor: '#264653',
-    },
-    SupportStaffImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 15,
 
-
-    },
-    pupilsView: {
-        
-        width: 150,
-        marginLeft: 15,
-        borderRadius: 15,
-        padding: 25,
-        backgroundColor: '#264653',
-    },
-    pupilsImage: {
-        height: 100,
-        width: 100,
-        borderRadius: 15,
-
-    },
     CardText: {
-        fontWeight: 'bold',
-        fontSize: 17,
-        textAlign: 'center',
-        marginTop: 25,
-        borderRadius: 5,
-        paddingBottom: 3,
         backgroundColor: '#edede9',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        width: '60%',
+        fontSize: normalize(15),
+        marginVertical: normalize(20),
+        marginHorizontal: normalize(32),
 
-    }
+    },
 
 });
