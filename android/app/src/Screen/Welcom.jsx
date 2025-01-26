@@ -49,7 +49,7 @@ const Welcom = ({ Navigate }) => {
 export default Welcom;
 
 
-// :normalize(),
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -69,6 +69,7 @@ const styles = StyleSheet.create({
         marginVertical: normalize(15),
 
 
+
     },
     card: {
         width: '40%',
@@ -77,7 +78,12 @@ const styles = StyleSheet.create({
         borderRadius: normalize(5),
         height: '100%',
         alignItems: 'center',
-        
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 5,
+
     },
     image: {
 

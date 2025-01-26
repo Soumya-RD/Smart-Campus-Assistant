@@ -3,26 +3,29 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
-
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 const scale = (size) => (screenWidth / 375) * size;
 const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
+
 const PSignIn = () => {
-  const [username, setUsername] = useState('');
+  const [batch, setBatch] = useState(''); 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reg, setReg] = useState('');
-
+  const [loading, setLoading] = useState(false); 
   const Navigation = useNavigation();
 
-  // Forget Password Functionality
+ 
   const forgetPasswordFields = async () => {
     if (email) {
       try {
+        setLoading(true); 
         await auth().sendPasswordResetEmail(email);
         Alert.alert('Success', 'Password reset email sent');
       } catch (error) {
         Alert.alert('Error', error.message);
+      } finally {
+        setLoading(false); 
       }
     } else {
       Alert.alert('Error', 'Please enter your email address');
@@ -30,50 +33,62 @@ const PSignIn = () => {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password || !username || !reg) {
+    if (!email || !password || !batch || !reg) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true); 
     try {
       await auth().signInWithEmailAndPassword(email, password);
-      Alert.alert('Success', `Welcome back, ${username}`);
-      Navigation.navigate('PHome', { reg: reg });
+      Alert.alert('Success', 'welcome NMIETian');
+      Navigation.navigate('PHome', { reg: reg, batch: batch });
       setEmail('');
-      setUsername('');
+      setBatch('');
       setPassword('');
       setReg('');
     } catch (error) {
       Alert.alert('Error', error.message);
+    } finally {
+      setLoading(false); 
     }
   };
 
   return (
     <View style={styles.Container}>
       {/* Image */}
-
       <Image source={require('./studentSignIn.jpg')} style={styles.ImageContainer} />
 
-
-      {/* name */}
+      {/* Batch */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="username"
+          placeholder="batch"
           style={styles.input}
           placeholderTextColor='#000'
-          value={username}
-          onChangeText={setUsername}
+          value={batch}
+          onChangeText={setBatch} 
         />
       </View>
+
       {/* Registration Number */}
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="registation number"
+          placeholder="registration number"
           style={styles.input}
           placeholderTextColor='#000'
           value={reg}
           onChangeText={setReg}
-          keyboardType='Phone-pad'
+          keyboardType='numeric' 
         />
       </View>
 
@@ -109,23 +124,19 @@ const PSignIn = () => {
 
         {/* SignIn Button */}
         <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#081c15' }]} onPress={handleSignIn}>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>
+            {loading ? 'Signing In...' : 'Sign In'}
+          </Text>
         </TouchableOpacity>
       </View>
 
-
       <View style={styles.OrContainer}>
-        <View style={styles.Or}>
-
-        </View>
+        <View style={styles.Or}></View>
         <View style={styles.OrView}>
           <Text style={styles.OrText}>OR</Text>
         </View>
-        <View style={styles.Or1}>
-
-        </View>
+        <View style={styles.Or1}></View>
       </View>
-
 
       {/* Sign Up */}
       <View style={styles.SignUpConatiner}>
@@ -143,30 +154,24 @@ export default PSignIn;
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-
   },
   ImageContainer: {
     width: '45%',
     height: '15%',
     marginTop: normalize(10),
     marginLeft: normalize(10),
-
   },
   inputContainer: {
     borderBottomWidth: normalize(1),
     marginTop: normalize(15),
     width: '90%',
     marginLeft: normalize(15),
-
   },
   input: {
     fontWeight: 'bold',
-
   },
   ButtomContainer: {
     flexDirection: 'row',
-
-
   },
   buttonConatiner: {
     width: '40%',
@@ -180,7 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     padding: normalize(5),
-    color: '#fff'
+    color: '#fff',
   },
   OrContainer: {
     flexDirection: 'row',
@@ -190,24 +195,16 @@ const styles = StyleSheet.create({
   Or: {
     borderBottomWidth: 1,
     width: '30%',
-  
-
   },
   Or1: {
     borderBottomWidth: 1,
     width: '30%',
-
-
   },
-  OrView: {
-
-  },
+  
   OrText: {
     fontWeight: 'bold',
     fontSize: normalize(15),
     marginHorizontal: normalize(22),
-
-
   },
   SignUpConatiner: {
     flexDirection: 'row',
@@ -223,8 +220,6 @@ const styles = StyleSheet.create({
     width: '40%',
     height: normalize(35),
     borderRadius: normalize(5),
-    backgroundColor: '#073b4c'
-
-  }
-
+    backgroundColor: '#073b4c',
+  },
 });

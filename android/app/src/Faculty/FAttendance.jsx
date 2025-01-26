@@ -11,7 +11,7 @@ const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 const FAttendance = () => {
   const route = useRoute();
   const { batch } = route.params;
-  const { tid } = route.params;
+  const { teacherId } = route.params;
   const { subject } = route.params;
   const navigation = useNavigation();
   const [atnData, setAtnData] = useState([]);
@@ -21,13 +21,11 @@ const FAttendance = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const studentCollection = await firestore().collection(batch).get();
-
 
         const classCollection = await firestore()
           .collection('faculty')
-          .doc('T002')
+          .doc(teacherId)
           .collection('class')
           .doc(subject)
           .get();
@@ -37,7 +35,6 @@ const FAttendance = () => {
             id: doc.id,
             ...doc.data(),
           }));
-
 
           const sortedData = studentData.sort((a, b) => a.registrationNumber - b.registrationNumber);
           setAtnData(sortedData);
@@ -56,18 +53,16 @@ const FAttendance = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [batch, teacherId, subject]);
 
   const handleAttendance = (studentId, status) => {
     setAttendanceStatus((prevStatus) => ({
       ...prevStatus,
       [studentId]: status,
     }));
-
   };
 
   const handleSubmitAttendance = async () => {
-
     const allStudentsMarked = atnData.every((student) => attendanceStatus[student.id]);
     if (!allStudentsMarked) {
       Alert.alert('Error', 'Please mark attendance for all students.');
@@ -75,7 +70,6 @@ const FAttendance = () => {
     }
 
     try {
-
       const presentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Present');
       const absentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Absent');
 
@@ -86,14 +80,10 @@ const FAttendance = () => {
         date: new Date(),
       };
 
-
       await firestore().collection(batch).doc('atn').collection('attendance').add(attendanceReport);
-
 
       for (const student of atnData) {
         const status = attendanceStatus[student.id];
-
-
         await firestore()
           .collection(batch)
           .doc(student.id)
@@ -102,35 +92,33 @@ const FAttendance = () => {
             lastUpdated: new Date(),
           });
       }
-      // navigation.navigate('FHome');
       Alert.alert('Success', 'Attendance report has been successfully stored and student statuses updated.');
-
     } catch (error) {
       Alert.alert('Error', 'There was an error while saving the attendance report.');
     }
   };
 
-
   return (
     <View style={styles.container}>
-      {/* Display Class Information */}
-
-      <FlatList
-        data={classData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.classContainer}>
-            <View style={styles.fieldContainer}>
-              <Text style={styles.field}>Batch: {item.batch}</Text>
-              <Text style={styles.field}>Subject: {item.subject}</Text>
+      {/* Card Header with Shadow */}
+      <View style={styles.card}>
+        <FlatList
+          data={classData}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.classContainer}>
+              <View style={styles.fieldContainer}>
+                <Text style={styles.field}>Batch: {item.batch}</Text>
+                <Text style={styles.field}>Subject: {item.subject}</Text>
+              </View>
+              <View style={styles.fieldContainer}>
+                <Text style={styles.field}>Time: {item.time}</Text>
+                <Text style={styles.field}>Room: {item.room}</Text>
+              </View>
             </View>
-            <View style={styles.fieldContainer}>
-              <Text style={styles.field}>Time: {item.time}</Text>
-              <Text style={styles.field}>Room: {item.room}</Text>
-            </View>
-          </View>
-        )}
-      />
+          )}
+        />
+      </View>
 
       {/* Display Students and their Attendance Buttons */}
       <FlatList
@@ -179,16 +167,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize(10),
     paddingVertical: normalize(5),
   },
-  classContainer: {
-    // paddingHorizontal: normalize(10),
-    backgroundColor: '#000',
-    flexDirection: 'row',
-    width: '90%',
-    marginHorizontal: normalize(15),
-    marginVertical: normalize(20),
-    height: normalize(100),
-    paddingVertical: normalize(10),
+  card: {
+    backgroundColor: '#fff',
+    paddingVertical: normalize(15),
     paddingHorizontal: normalize(20),
+    marginVertical: normalize(20),
+    borderRadius: normalize(10),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  classContainer: {
+    flexDirection: 'row',
+    marginVertical: normalize(10),
   },
   fieldContainer: {
     width: '60%',
@@ -197,16 +190,13 @@ const styles = StyleSheet.create({
   field: {
     fontSize: normalize(15),
     fontWeight: 'bold',
-    paddingHorizontal: normalize(5),
-    paddingVertical: normalize(5),
-    color: '#fff',
+    color: '#333',
   },
   itemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#edf2f4',
     marginVertical: normalize(10),
-
   },
   studentText: {
     flex: 1,
@@ -219,7 +209,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '25%',
     height: normalize(40),
-
   },
   Pbutton: {
     borderWidth: 1,

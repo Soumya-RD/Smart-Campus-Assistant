@@ -22,6 +22,7 @@ const FHome = () => {
   const [classData, setClassData] = useState([]);
   const [batch, setBatch] = useState([]);
   const [subject, setSubject] = useState([]);
+  const [teacherId, setTeacherId] = useState([]);
 
   const navigation = useNavigation();
 
@@ -49,18 +50,15 @@ const FHome = () => {
 
         if (!classSnapshot.empty) {
           const classList = classSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-          // Sort classes by time here
           const sortedClassList = classList.sort((a, b) => {
-            const timeA = a.time.split(':').map(Number); // Convert to [hour, minute]
-            const timeB = b.time.split(':').map(Number); // Convert to [hour, minute]
-
-            // Compare hour first, then minute
+            const timeA = a.time.split(':').map(Number);
+            const timeB = b.time.split(':').map(Number);
             if (timeA[0] !== timeB[0]) return timeA[0] - timeB[0];
             return timeA[1] - timeB[1];
           });
           setSubject(subject);
           setClassData(sortedClassList);
+          setTeacherId(tid);
         } else {
           Alert.alert('Error', 'No classes found.');
         }
@@ -75,8 +73,8 @@ const FHome = () => {
     fetchData();
   }, [tid]);
   const handleAtn = (batch, subject, event) => {
-    event.persist(); // Prevent the event from being reused
-    navigation.navigate('FAttendance', { batch: batch, subject: subject });
+    event.persist();
+    navigation.navigate('FAttendance', { batch: batch, subject: subject, teacherId: teacherId });
   };
 
   if (loading) {
@@ -142,7 +140,7 @@ const FHome = () => {
 };
 
 export default FHome;
-// :normalize(),
+
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
