@@ -93,6 +93,7 @@ const FAttendance = () => {
           });
       }
       Alert.alert('Success', 'Attendance report has been successfully stored and student statuses updated.');
+
     } catch (error) {
       Alert.alert('Error', 'There was an error while saving the attendance report.');
     }

@@ -1,7 +1,5 @@
 import { Alert, StyleSheet, Text, TouchableOpacity, View, Image, TextInput } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
@@ -103,7 +101,7 @@ const FSignIn = () => {
   };
 
   return (
-    <KeyboardAwareScrollView style={styles.Container}>
+    <View style={styles.Container}>
       <Image source={require('./FSignIn.jpg')} style={styles.ImageContainer} />
       <View style={styles.inputContainer}>
         <TextInput
@@ -140,7 +138,7 @@ const FSignIn = () => {
           </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAwareScrollView>
+    </View>
   );
 };
 
