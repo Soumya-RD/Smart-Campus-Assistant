@@ -8,24 +8,24 @@ const scale = (size) => (screenWidth / 375) * size;
 const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 
 const PSignIn = () => {
-  const [batch, setBatch] = useState(''); 
+  const [batch, setBatch] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reg, setReg] = useState('');
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const Navigation = useNavigation();
 
- 
+
   const forgetPasswordFields = async () => {
     if (email) {
       try {
-        setLoading(true); 
+        setLoading(true);
         await auth().sendPasswordResetEmail(email);
         Alert.alert('Success', 'Password reset email sent');
       } catch (error) {
         Alert.alert('Error', error.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     } else {
       Alert.alert('Error', 'Please enter your email address');
@@ -48,7 +48,7 @@ const PSignIn = () => {
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);
     try {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', 'welcome NMIETian');
@@ -60,9 +60,15 @@ const PSignIn = () => {
     } catch (error) {
       Alert.alert('Error', error.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
+  const handleSignUp = () => {
+    Navigation.navigate('PSignUp');
+    Alert.alert('Warning', 'Please use class names in the format:  mca1st, mca2nd, btech4th, etc.');
+
+
+  }
 
   return (
     <View style={styles.Container}>
@@ -76,7 +82,7 @@ const PSignIn = () => {
           style={styles.input}
           placeholderTextColor='#000'
           value={batch}
-          onChangeText={setBatch} 
+          onChangeText={setBatch}
         />
       </View>
 
@@ -88,7 +94,7 @@ const PSignIn = () => {
           placeholderTextColor='#000'
           value={reg}
           onChangeText={setReg}
-          keyboardType='numeric' 
+          keyboardType='numeric'
         />
       </View>
 
@@ -141,7 +147,7 @@ const PSignIn = () => {
       {/* Sign Up */}
       <View style={styles.SignUpConatiner}>
         <Text style={styles.signUpText}>Create a new account ?</Text>
-        <TouchableOpacity style={styles.signUpView} onPress={() => Navigation.navigate('PSignUp')}>
+        <TouchableOpacity style={styles.signUpView} onPress={handleSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -168,7 +174,7 @@ const styles = StyleSheet.create({
     marginLeft: normalize(15),
   },
   input: {
-    fontWeight: 'bold',
+
   },
   ButtomContainer: {
     flexDirection: 'row',
@@ -200,7 +206,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: '30%',
   },
-  
+
   OrText: {
     fontWeight: 'bold',
     fontSize: normalize(15),

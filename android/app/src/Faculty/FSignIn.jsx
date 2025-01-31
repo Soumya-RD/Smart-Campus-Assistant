@@ -45,7 +45,7 @@ const FSignIn = () => {
       return;
     }
 
-    setLoading(true);  
+    setLoading(true);
 
     try {
       const teacherQuery = await firestore()
@@ -54,14 +54,14 @@ const FSignIn = () => {
         .get();
 
       if (teacherQuery.empty) {
-        setLoading(false); 
+        setLoading(false);
         Alert.alert('Access Denied', 'This email is not authorized as a faculty.');
         return;
       }
 
       const teacherData = teacherQuery.docs[0].data();
       if (teacherData.password !== password) {
-        setLoading(false); 
+        setLoading(false);
         Alert.alert('Error', 'Incorrect password. Please try again.');
         return;
       }
@@ -71,8 +71,9 @@ const FSignIn = () => {
       setEmail('');
       setPassword('');
       setTeacherId('');
+      setLoading(false);
     } catch (error) {
-      setLoading(false); 
+      setLoading(false);
       if (error.code === 'auth/user-not-found') {
         Alert.alert('Error', 'No user found with this email.');
       } else if (error.code === 'auth/wrong-password') {
@@ -89,14 +90,14 @@ const FSignIn = () => {
       return;
     }
 
-    setLoading(true); 
+    setLoading(true);
     try {
       await auth().sendPasswordResetEmail(email);
       Alert.alert('Email Sent', 'Please check your email.');
     } catch (error) {
       Alert.alert('Error', error.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -105,21 +106,21 @@ const FSignIn = () => {
       <Image source={require('./FSignIn.jpg')} style={styles.ImageContainer} />
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Teacher ID"
+          placeholder="teacher Id"
           style={styles.input}
           placeholderTextColor='#000'
           value={teacherId}
           onChangeText={setTeacherId}
         />
         <TextInput
-          placeholder="Email"
+          placeholder="email"
           style={styles.input}
           placeholderTextColor='#000'
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
-          placeholder="Password"
+          placeholder="password"
           style={styles.input}
           placeholderTextColor='#000'
           value={password}
@@ -128,15 +129,28 @@ const FSignIn = () => {
         />
       </View>
 
-      <View style={styles.ButtomContainer}>
-        <TouchableOpacity onPress={handleResetPassword} style={styles.resetPasswordButton}>
-          <Text style={styles.ButtonText}>Reset Password</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSignIn} style={styles.signInButton}>
-          <Text style={styles.ButtonText}>
+      <View style={styles.signInButton}>
+        <TouchableOpacity onPress={handleSignIn} >
+          <Text style={styles.SignInText}>
             {loading ? 'Signing In...' : 'Sign In'}
           </Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.orContainer}>
+        <View style={styles.line1}></View>
+        <Text style={styles.text}>OR</Text>
+        <View style={styles.line2}></View>
+      </View>
+      <View style={styles.buttomContainer}>
+        <View style={styles.forgotPasswordConatiner}>
+          <Text style={styles.forgotPasswordText}>Forgot password ?</Text>
+        </View>
+        <View style={styles.clickContainer} >
+          <TouchableOpacity onPress={handleResetPassword} >
+            <Text style={styles.ClickText}>Click here</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
     </View>
   );
@@ -147,8 +161,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ImageContainer: {
-    width: '30%',
-    height: normalize(100),
+    width: '40%',
+    height: '15%',
     borderRadius: normalize(5),
     marginHorizontal: normalize(20),
     marginVertical: normalize(15),
@@ -160,38 +174,68 @@ const styles = StyleSheet.create({
   input: {
     borderBottomWidth: 1,
     width: '90%',
-    fontWeight: 'bold',
     marginVertical: normalize(10),
   },
-  ButtomContainer: {
-    flexDirection: 'row',
-    marginVertical: normalize(15),
-    justifyContent: 'center',
-  },
-  resetPasswordButton: {
-    width: '40%',
-    height: normalize(40),
-    borderRadius: normalize(5),
-    backgroundColor: '#9d0208',
-    marginHorizontal: normalize(15),
-    borderWidth: 1,
-  },
   signInButton: {
-    width: '40%',
-    height: normalize(40),
+    borderWidth: 1,
+    height: normalize(45),
     borderRadius: normalize(5),
     backgroundColor: '#073b4c',
-    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginHorizontal: normalize(85),
   },
-  ButtonText: {
+  SignInText: {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: normalize(14),
     color: '#fff',
     paddingVertical: normalize(7),
   },
+  orContainer: {
+    flexDirection: 'row',
+    width: '80%',
+    marginHorizontal: normalize(40),
+    marginVertical: normalize(25),
+  },
+  line1: {
+    borderBottomWidth: 1,
+    width: '45%',
+
+  },
+  line2: {
+    borderBottomWidth: 1,
+    width: '45%',
+    marginHorizontal: normalize(10),
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: normalize(15),
+    width: '12%',
+    textAlign: 'center'
+  },
+  buttomContainer: {
+    flexDirection: 'row',
+    marginVertical: normalize(20),
+  },
+  forgotPasswordConatiner: {
+    width: '50%',
+
+  },
+  forgotPasswordText: {
+    fontWeight: 'bold',
+    fontSize: normalize(15),
+    textAlign: 'right'
+  },
+  clickContainer: {
+
+  },
+  ClickText: {
+    fontWeight: 'bold',
+    color: 'red',
+    fontSize: normalize(15),
+    marginHorizontal: normalize(20),
+  }
 });
 
 export default FSignIn;

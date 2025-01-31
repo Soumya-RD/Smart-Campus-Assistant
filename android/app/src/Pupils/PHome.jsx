@@ -35,7 +35,7 @@ const PHome = () => {
         }
 
         // Fetch timetable for the batch
-       
+
 
       } catch (error) {
         Alert.alert('Error', 'Unable to fetch data.');
@@ -91,7 +91,7 @@ const PHome = () => {
             {/* Timetable Section */}
             <View style={styles.timetableContainer}>
               <Text style={styles.timetableTitle}>College Timetable</Text>
-              
+
             </View>
           </View>
         )}
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: normalize(100),
     height: normalize(100),
-    borderRadius: normalize(10),
+    borderRadius: normalize(50),
   },
   statusButton: {
     marginTop: normalize(15),

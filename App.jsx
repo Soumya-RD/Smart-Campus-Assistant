@@ -7,12 +7,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { NavigationContainer } from '@react-navigation/native';
 import Welcom from './android/app/src/Screen/Welcom';
-import AdminSignUp from './android/app/src/Admin/AdminSignUp';
+import AHome from './android/app/src/Admin/AHome';
 import AdminSignIn from './android/app/src/Admin/AdminSignIn';
 import FSignIn from './android/app/src/Faculty/FSignIn';
 import FHome from './android/app/src/Faculty/FHome';
 import FAttendance from './android/app/src/Faculty/FAttendance';
-import SSignUp from './android/app/src/Supporters/SSignUp';
+import SHome from './android/app/src/Supporters/SHome';
 import SSignIn from './android/app/src/Supporters/SSignIn';
 import PSignUp from './android/app/src/Pupils/PSignUp';
 import PSignIn from './android/app/src/Pupils/PSignIn';
@@ -30,11 +30,11 @@ const App = () => {
 
 
         {/* Admin */}
-        <Stack.Screen name='AdminSignUp' component={AdminSignUp} options={{ headerShown: false }} />
         <Stack.Screen name='AdminSignIn' component={AdminSignIn} options={{ headerShown: false }} />
+        <Stack.Screen name='AHome' component={AHome} options={{ headerShown: false }} />
+
 
         {/* faculty */}
-
         <Stack.Screen name='FSignIn' component={FSignIn} options={{ headerShown: false }} />
         <Stack.Screen name='FHome' component={FHome} options={{ headerShown: false }} />
         <Stack.Screen name='FAttendance' component={FAttendance} options={{ headerShown: false }} />
@@ -42,7 +42,7 @@ const App = () => {
 
         {/* Supporters */}
         <Stack.Screen name='SSignIn' component={SSignIn} options={{ headerShown: false }} />
-        <Stack.Screen name='SSignUp' component={SSignUp} options={{ headerShown: false }} />
+        <Stack.Screen name='SHome' component={SHome} options={{ headerShown: false }} />
 
 
         {/* Pupils */}

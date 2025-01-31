@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, PixelRatio } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Dimensions, PixelRatio, Alert } from 'react-native';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import AdminSignUp from '../Admin/AdminSignUp';
+
 
 const { width: ScreenWidth, height: ScreenHeight } = Dimensions.get('window')
 const scale = (size) => (ScreenWidth / 375) * size;
@@ -9,7 +9,13 @@ const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 
 
 const Welcom = ({ Navigate }) => {
+
     const Navigation = useNavigation();
+    const handleStudentSignIn = () => {
+        Navigation.navigate('PSignIn');
+        Alert.alert('Warning', 'Please use class names in the format: mca1st, mca2nd, btech4th, etc.');
+
+    }
     return (
         <View style={styles.container}>
             <View style={styles.textConatiner}>
@@ -21,7 +27,7 @@ const Welcom = ({ Navigate }) => {
 
 
             <View style={styles.cardContainer} >
-                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate(AdminSignUp)}>
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('AdminSignIn')}>
                     <Image source={require('./admin.png')} style={styles.image} />
                     <Text style={styles.CardText}>Admins </Text>
                 </TouchableOpacity>
@@ -31,11 +37,11 @@ const Welcom = ({ Navigate }) => {
                 </TouchableOpacity>
             </View>
             <View style={styles.cardContainer}>
-                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('SSignUp')}>
+                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('SSignIn')}>
                     <Image source={require('./NonTeaching.jpg')} style={styles.image} />
                     <Text style={styles.CardText}>Supporters </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.card} onPress={() => Navigation.navigate('PSignIn')} >
+                <TouchableOpacity style={styles.card} onPress={handleStudentSignIn} >
                     <Image source={require('./StudentCard.jpg')} style={styles.image} />
                     <Text style={styles.CardText}>Pupils</Text>
                 </TouchableOpacity>
@@ -78,9 +84,9 @@ const styles = StyleSheet.create({
         borderRadius: normalize(5),
         height: '100%',
         alignItems: 'center',
-        shadowColor: '#000',
+        shadowColor: '#fff',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 10,
         shadowRadius: 10,
         elevation: 5,
 

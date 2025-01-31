@@ -39,28 +39,17 @@ const PSignUp = ({ navigate }) => {
     }
 
 
-    // Firebase authentication
+    
     try {
-      // Save email and password to the firebase
+      
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
-
-
-
-      // Send verification code 
-
       if (userCredential.user) {
         await userCredential.user.sendEmailVerification();
         Alert.alert('Verification Email Sent', 'Please check your email to verify your account.');
       }
-
-
-      // validate mobile number
       if (!/^\d{10}$/.test(phone)) {
         setMessage('Phone number exactly 10 digits');
       }
-
-
-      // save user data to firestore
       const saveData = await firestore().collection('Student').add({
         name: name,
         email: email,
@@ -81,20 +70,9 @@ const PSignUp = ({ navigate }) => {
     } catch (error) {
       Alert.alert('Error', error.message);
     }
-
-
   }
-
-
-
-
-
-
   return (
     <View style={styles.Container}>
-
-
-
       {/* Image */}
 
       <Image source={require('./studentLandScap.png')} style={styles.imageConatiner} />
@@ -110,7 +88,6 @@ const PSignUp = ({ navigate }) => {
 
         />
       </View>
-
 
       {/* Registation Number */}
       <View style={styles.inputContainer} >
@@ -170,10 +147,6 @@ const PSignUp = ({ navigate }) => {
 
         />
       </View>
-
-
-
-
       <View style={styles.ButtomConatiner}>
         {/* clear button */}
         <TouchableOpacity style={[styles.buttonConatiner, { backgroundColor: '#6a040f', marginHorizontal: normalize(10), }]} onPress={clearFields}>
@@ -219,10 +192,10 @@ const styles = StyleSheet.create({
 
   },
   imageConatiner: {
-    width: '30%',
-    height: '10%',
+    width: '40%',
+    height: '15%',
     marginHorizontal: normalize(15),
-    marginVertical: normalize(5),
+    marginVertical: normalize(15),
   },
   inputContainer: {
     borderBottomWidth: 1,
@@ -231,7 +204,7 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(15),
   },
   input: {
-    fontWeight: 'bold'
+    
   },
   OrContainer: {
     flexDirection: 'row',
