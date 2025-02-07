@@ -27,51 +27,56 @@ const AHome = () => {
           <View style={styles.container}>
             <View style={styles.detailsContainer}>
               <View style={styles.details}>
-                <Text style={styles.text}>Name :Jagannath Samal</Text>
-                <Text style={styles.text}>Email :nm@jagannathsamal88gmail.com </Text>
+                <Text style={styles.text}>Name :Shilpa Parida</Text>
+                <Text style={styles.text}>Email :nm@shilpaparida01gmail.com </Text>
               </View>
               <View >
                 <Image source={require('./admin.png')} style={styles.imageContainer} />
 
               </View>
             </View>
-            <View style={styles.searchContainer}>
+
+
+            <View >
               <View style={styles.mettingContainer}>
                 <Text style={styles.heading}>Create a meeting :</Text>
                 <TouchableOpacity style={styles.button}>
                   <Text style={styles.sendLinkText}>Send link ... </Text>
                 </TouchableOpacity>
               </View>
-              <View style={[styles.inputContainer, { height: normalize(140) }]}>
-                <Text style={styles.heading}>Search student:</Text>
-                <TextInput placeholder='batch' placeholderTextColor='#000' style={styles.input} />
-                <TextInput placeholder='registation number' placeholderTextColor='#000' style={styles.input} />
-                <TouchableOpacity style={styles.searchButton}>
-                  <Text style={styles.searchText}>Search</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.heading}>Search faculty:</Text>
-                <TextInput placeholder='tid' placeholderTextColor='#000' style={styles.input} />
-                <TouchableOpacity style={styles.searchButton}>
-                  <Text style={styles.searchText}>Search</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.inputContainer}>
-                <Text style={styles.heading}>Search support staff:</Text>
-                <TextInput placeholder='sid' placeholderTextColor='#000' style={styles.input} />
-                <TouchableOpacity style={styles.searchButton}>
-                  <Text style={styles.searchText}>Search</Text>
-                </TouchableOpacity>
-              </View>
 
+
+              <View style={styles.searchContainer} >
+                <View style={[styles.inputContainer, { height: normalize(140) }]}>
+                  <Text style={styles.heading}>Search student:</Text>
+                  <TextInput placeholder='batch' placeholderTextColor='#000' style={styles.input} />
+                  <TextInput placeholder='registation number' placeholderTextColor='#000' style={styles.input} />
+                  <TouchableOpacity style={styles.searchButton}>
+                    <Text style={styles.searchText}>Search</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.heading}>Search faculty:</Text>
+                  <TextInput placeholder='enter tid' placeholderTextColor='#000' style={styles.input} />
+                  <TouchableOpacity style={styles.searchButton}>
+                    <Text style={styles.searchText}>Search</Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={styles.inputContainer}>
+                  <Text style={styles.heading}>Search support staff:</Text>
+                  <TextInput placeholder='enter sid' placeholderTextColor='#000' style={styles.input} />
+                  <TouchableOpacity style={styles.searchButton}>
+                    <Text style={styles.searchText}>Search</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </View>
         )}
       />
-      <Tab.Screen name='Chat' component={AChat}  options={{ headerShown: false }} />
-      <Tab.Screen name='Notification' component={ANotification}  options={{ headerShown: false }} />
-      <Tab.Screen name='Setting' component={ASetting}  options={{ headerShown: false }}/>
+      <Tab.Screen name='Chat' component={AChat} options={{ headerShown: false }} />
+      <Tab.Screen name='Notification' component={ANotification} options={{ headerShown: false }} />
+      <Tab.Screen name='Setting' component={ASetting} options={{ headerShown: false }} />
 
     </Tab.Navigator>
 
@@ -83,7 +88,7 @@ export default AHome;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#007f5f'
+
   },
   detailsContainer: {
     shadowColor: '#fff',
@@ -116,10 +121,7 @@ const styles = StyleSheet.create({
     borderRadius: normalize(50),
     marginVertical: normalize(20),
   },
-  searchContainer: {
 
-
-  },
   heading: {
     fontWeight: 'bold',
     fontSize: normalize(15),
@@ -139,16 +141,22 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: normalize(90),
-    height: normalize(35),
+    height: normalize(40),
     borderRadius: normalize(10),
     marginVertical: normalize(25),
-    paddingVertical: normalize(7),
-    backgroundColor: '#283618'
+    paddingVertical: normalize(10),
+    backgroundColor: '#283618',
+  },
+  searchContainer: {
+    borderWidth: 4,
+    marginHorizontal: normalize(20),
+    borderRadius: normalize(10)
+
   },
   inputContainer: {
 
     marginVertical: normalize(10),
-    marginHorizontal: normalize(20),
+    marginHorizontal: normalize(5),
     height: normalize(110),
     borderRadius: normalize(5),
     backgroundColor: '#f6fff8'

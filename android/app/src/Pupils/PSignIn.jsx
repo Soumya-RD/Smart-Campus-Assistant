@@ -65,7 +65,7 @@ const PSignIn = () => {
   };
   const handleSignUp = () => {
     Navigation.navigate('PSignUp');
-    Alert.alert('Warning', 'Please use class names in the format:  mca1st, mca2nd, btech4th, etc.');
+    Alert.alert('Warning', 'Please use class names in the format: mca1st, mca2nd, btech4th, etc.');
 
 
   }

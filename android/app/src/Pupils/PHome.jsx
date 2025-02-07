@@ -74,7 +74,7 @@ const PHome = () => {
                         <Text style={styles.studentText}>Registration: {reg}</Text>
                         <Text style={styles.studentText}>Name: {item.name}</Text>
                       </View>
-                      <Image source={require('./studentLandScap.png')} style={styles.imageContainer} />
+                      <Image source={require('./me.jpg')} style={styles.imageContainer} />
                     </View>
 
                     {/* Attendance Status Section */}
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   studentText: {
     fontSize: normalize(16),
-    fontWeight: 'bold',
+    fontWeight: '500',
     marginBottom: normalize(5),
   },
   imageContainer: {

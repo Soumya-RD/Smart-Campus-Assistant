@@ -39,9 +39,9 @@ const PSignUp = ({ navigate }) => {
     }
 
 
-    
+
     try {
-      
+
       const userCredential = await auth().createUserWithEmailAndPassword(email, password);
       if (userCredential.user) {
         await userCredential.user.sendEmailVerification();
@@ -75,7 +75,7 @@ const PSignUp = ({ navigate }) => {
     <View style={styles.Container}>
       {/* Image */}
 
-      <Image source={require('./studentLandScap.png')} style={styles.imageConatiner} />
+      <Image source={require('./studentSignIn.jpg')} style={styles.imageConatiner} />
 
 
       {/* Name */}
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(15),
   },
   input: {
-    
+
   },
   OrContainer: {
     flexDirection: 'row',
