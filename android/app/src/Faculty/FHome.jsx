@@ -7,6 +7,8 @@ import FChat from './FChat';
 import FNotification from './FNotification';
 import FSetting from './FSetting';
 import { useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import FTodo from './FTodo';
 
 const { width: ScreenWidth, height: ScreenHeight } = Dimensions.get('window');
 const scale = (size) => (ScreenWidth / 375) * size;
@@ -96,14 +98,14 @@ const FHome = () => {
               renderItem={({ item }) => (
                 <View style={styles.FacultyContainer}>
 
-                  <Text style={styles.facultyData}>Id: {item.tid}</Text>
+                  <Text style={styles.facultyData}>Faculty Id: {item.tid}</Text>
                   <Text style={styles.facultyData}>Name:{item.name}</Text>
                 </View>
               )}
             />
           </View>
 
-          <Text style={styles.headingText}>Upcoming Classes: </Text>
+          <Text style={styles.headingText}>Upcoming Classes </Text>
           <View>
             <FlatList
               data={classData}
@@ -129,11 +131,19 @@ const FHome = () => {
               )}
             />
           </View>
+          {/* To-Do Button */}
+          <TouchableOpacity
+            style={styles.todoButton}
+            onPress={() => navigation.navigate('FTodo', {teacherId: teacherId })}
+          >
+            <Icon name="check-circle" size={30} color="#fff" />
+          </TouchableOpacity>
 
         </View>
       )} />
       <Tab.Screen name="Chat" component={FChat} options={{ headerShown: false }} />
-      <Tab.Screen name="Notification" component={FNotification} options={{ headerShown: false }} />
+      <Tab.Screen name="Notification" component={FNotification} options={{ headerShown: false }}
+        initialParams={{ facultyName: facultyData.length > 0 ? facultyData[0].name : '' }} />
       <Tab.Screen name="Setting" component={FSetting} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
@@ -148,6 +158,14 @@ const styles = StyleSheet.create({
   },
   FacultyContainer: {
     marginVertical: normalize(20),
+    backgroundColor: '#fff',
+    padding: normalize(15),
+    borderRadius: normalize(5),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   facultyData: {
     fontWeight: 'bold',
@@ -158,16 +176,23 @@ const styles = StyleSheet.create({
   },
 
   headingText: {
-    fontWeight: 'bold',
-    fontSize: normalize(16),
+    fontWeight: 'black',
+    fontSize: normalize(18),
     marginVertical: normalize(15),
+    textAlign: 'center'
 
   },
   ClassContainer: {
     borderWidth: 1,
-    height: normalize(100),
     marginVertical: normalize(15),
-    borderRadius: 5
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    borderRadius: normalize(10),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   FieldContainer: {
     flexDirection: 'row',
@@ -180,12 +205,11 @@ const styles = StyleSheet.create({
     padding: normalize(5),
   },
   attendanceContainer: {
-    borderWidth: normalize(1),
-    width: '45%',
+    borderWidth: 1,
     height: normalize(30),
     backgroundColor: '#14213d',
-    marginHorizontal: normalize(100),
-    marginVertical: normalize(10),
+    marginHorizontal: normalize(90),
+    marginVertical: normalize(15),
     paddingVertical: normalize(5),
     borderRadius: normalize(5),
   },
@@ -198,5 +222,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  todoButton: {
+    position: 'absolute',
+    bottom: normalize(30),
+    right: normalize(30),
+    backgroundColor: '#2ecc71',
+    width: normalize(60),
+    height: normalize(60),
+    borderRadius: normalize(30),
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
 });

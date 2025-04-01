@@ -13,7 +13,7 @@ const Welcom = ({ Navigate }) => {
     const Navigation = useNavigation();
     const handleStudentSignIn = () => {
         Navigation.navigate('PSignIn');
-        Alert.alert('Warning', 'Please use class names in the format: mca1st, mca2nd, btech4th, etc.');
+        Alert.alert('Warning', 'Please use batch names in the format: mca1st, mca2nd, btech4th, etc.');
 
     }
     return (
@@ -62,7 +62,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#edf2f4'
     },
     textConatiner: {
-        marginVertical: normalize(40),
+        padding: normalize(15),
+        marginVertical: normalize(25),
+        marginHorizontal: normalize(60),
     },
     text: {
         fontWeight: 'bold',

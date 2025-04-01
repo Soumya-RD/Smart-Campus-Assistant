@@ -129,8 +129,8 @@ const FSignIn = () => {
         />
       </View>
 
-      <View style={styles.signInButton}>
-        <TouchableOpacity onPress={handleSignIn} >
+      <View >
+        <TouchableOpacity onPress={handleSignIn} style={styles.signInButton}>
           <Text style={styles.SignInText}>
             {loading ? 'Signing In...' : 'Sign In'}
           </Text>
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: '90%',
     marginVertical: normalize(10),
+    color: '#000'
   },
   signInButton: {
     borderWidth: 1,
@@ -182,7 +183,6 @@ const styles = StyleSheet.create({
     borderRadius: normalize(5),
     backgroundColor: '#073b4c',
     justifyContent: 'center',
-    alignItems: 'center',
     marginHorizontal: normalize(85),
   },
   SignInText: {

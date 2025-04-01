@@ -67,7 +67,7 @@ const SSignIn = () => {
       }
 
       await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate('SHome');
+      navigation.navigate('SHome', { sid: staffId });
       setEmail('');
       setPassword('');
       setStaffId('');
@@ -106,21 +106,21 @@ const SSignIn = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Staff ID"
+          placeholder="staff ID"
           placeholderTextColor="#000"
           value={staffId}
           onChangeText={setStaffId}
         />
         <TextInput
           style={styles.input}
-          placeholder="Email"
+          placeholder="email"
           placeholderTextColor="#000"
           value={email}
           onChangeText={setEmail}
         />
         <TextInput
           style={styles.input}
-          placeholder="Password"
+          placeholder="password"
           placeholderTextColor="#000"
           secureTextEntry
           value={password}
@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     marginVertical: normalize(10),
     paddingVertical: normalize(5),
     paddingHorizontal: normalize(10),
+    color: '#000'
   },
   signInContainer: {
     borderWidth: 1,

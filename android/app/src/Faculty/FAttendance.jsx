@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, View, TouchableOpacity, FlatList, Dimensions, PixelRatio } from 'react-native';
+import { Alert, StyleSheet, Text, View, TouchableOpacity, FlatList, Dimensions, PixelRatio, ActivityIndicator } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import { useRoute } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
@@ -17,6 +17,7 @@ const FAttendance = () => {
   const [atnData, setAtnData] = useState([]);
   const [classData, setClassData] = useState([]);
   const [attendanceStatus, setAttendanceStatus] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,6 +71,8 @@ const FAttendance = () => {
     }
 
     try {
+      setIsLoading(true);  // Set loading state to true when submitting
+
       const presentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Present');
       const absentStudents = atnData.filter((student) => attendanceStatus[student.id] === 'Absent');
 
@@ -80,8 +83,14 @@ const FAttendance = () => {
         date: new Date(),
       };
 
-      await firestore().collection(batch).doc('atn').collection('attendance').add(attendanceReport);
+      // Get the current date and time for the document ID
+      const now = new Date();
+      const documentId = now.toISOString();  // Get the current timestamp in ISO format
 
+      // Save the attendance report in Firestore with the timestamp as the document ID
+      await firestore().collection(batch).doc('atn').collection('attendance').doc(documentId).set(attendanceReport);
+
+      // Update the individual student documents with their attendance status
       for (const student of atnData) {
         const status = attendanceStatus[student.id];
         await firestore()
@@ -92,11 +101,35 @@ const FAttendance = () => {
             lastUpdated: new Date(),
           });
       }
+
+      // Reset the attendanceStatus to clear the marked attendance
+      setAttendanceStatus({});
+
+      setIsLoading(false);  // Set loading state to false after submission
       Alert.alert('Success', 'Attendance report has been successfully stored and student statuses updated.');
 
     } catch (error) {
+      setIsLoading(false);  // Set loading state to false if an error occurs
       Alert.alert('Error', 'There was an error while saving the attendance report.');
     }
+  };
+
+  // Mark all students as present
+  const markAllPresent = () => {
+    const updatedStatus = {};
+    atnData.forEach(student => {
+      updatedStatus[student.id] = 'Present';
+    });
+    setAttendanceStatus(updatedStatus);
+  };
+
+  // Mark all students as absent
+  const markAllAbsent = () => {
+    const updatedStatus = {};
+    atnData.forEach(student => {
+      updatedStatus[student.id] = 'Absent';
+    });
+    setAttendanceStatus(updatedStatus);
   };
 
   return (
@@ -121,6 +154,16 @@ const FAttendance = () => {
         />
       </View>
 
+      {/* Mark All Present/Absent Buttons */}
+      <View style={styles.markAllButtonsContainer}>
+        <TouchableOpacity style={styles.markAllButton} onPress={markAllPresent}>
+          <Text style={styles.markAllButtonText}>Mark All Present</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.markAllButton} onPress={markAllAbsent}>
+          <Text style={styles.markAllButtonText}>Mark All Absent</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Display Students and their Attendance Buttons */}
       <FlatList
         data={atnData}
@@ -133,7 +176,11 @@ const FAttendance = () => {
             <View style={styles.attendanceButtons}>
               {/* "Present" button */}
               <TouchableOpacity
-                style={[styles.Pbutton, attendanceStatus[item.id] === 'Present' && { backgroundColor: 'green' }]}
+                style={[
+                  styles.Pbutton, 
+                  attendanceStatus[item.id] === 'Present' && { backgroundColor: 'green' }, // Mark present button with green
+                  !attendanceStatus[item.id] && { backgroundColor: 'white' }, // Reset to white if no status
+                ]}
                 onPress={() => handleAttendance(item.id, 'Present')}
               >
                 <Text style={styles.text}>P</Text>
@@ -141,7 +188,11 @@ const FAttendance = () => {
 
               {/* "Absent" button */}
               <TouchableOpacity
-                style={[styles.Abutton, attendanceStatus[item.id] === 'Absent' && { backgroundColor: 'red' }]}
+                style={[
+                  styles.Abutton,
+                  attendanceStatus[item.id] === 'Absent' && { backgroundColor: 'red' }, // Mark absent button with red
+                  !attendanceStatus[item.id] && { backgroundColor: 'white' }, // Reset to white if no status
+                ]}
                 onPress={() => handleAttendance(item.id, 'Absent')}
               >
                 <Text style={styles.text}>A</Text>
@@ -153,7 +204,11 @@ const FAttendance = () => {
 
       {/* Submit Attendance Button */}
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmitAttendance}>
-        <Text style={styles.submitText}>Submit Attendance</Text>
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#ffffff" />
+        ) : (
+          <Text style={styles.submitText}>Submit Attendance</Text>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -169,7 +224,7 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(5),
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#2d6a4f',
     paddingVertical: normalize(15),
     paddingHorizontal: normalize(20),
     marginVertical: normalize(20),
@@ -191,7 +246,24 @@ const styles = StyleSheet.create({
   field: {
     fontSize: normalize(15),
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
+  },
+  markAllButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginVertical: normalize(15),
+  },
+  markAllButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: normalize(10),
+    paddingHorizontal: normalize(20),
+    borderRadius: normalize(8),
+    alignItems: 'center',
+  },
+  markAllButtonText: {
+    color: '#fff',
+    fontSize: normalize(14),
+    fontWeight: 'bold',
   },
   itemContainer: {
     flexDirection: 'row',

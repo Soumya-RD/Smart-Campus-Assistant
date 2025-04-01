@@ -11,7 +11,7 @@ const PSignIn = () => {
   const [batch, setBatch] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [reg, setReg] = useState('');
+  const [registation, setRegistation] = useState('');
   const [loading, setLoading] = useState(false);
   const Navigation = useNavigation();
 
@@ -33,7 +33,7 @@ const PSignIn = () => {
   };
 
   const handleSignIn = async () => {
-    if (!email || !password || !batch || !reg) {
+    if (!email || !password || !batch || !registation) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
@@ -52,11 +52,11 @@ const PSignIn = () => {
     try {
       await auth().signInWithEmailAndPassword(email, password);
       Alert.alert('Success', 'welcome NMIETian');
-      Navigation.navigate('PHome', { reg: reg, batch: batch });
+      Navigation.navigate('PHome', { registation: registation, batch: batch });
       setEmail('');
       setBatch('');
       setPassword('');
-      setReg('');
+      setRegistation('');
     } catch (error) {
       Alert.alert('Error', error.message);
     } finally {
@@ -65,7 +65,7 @@ const PSignIn = () => {
   };
   const handleSignUp = () => {
     Navigation.navigate('PSignUp');
-    Alert.alert('Warning', 'Please use class names in the format: mca1st, mca2nd, btech4th, etc.');
+    Alert.alert('Warning', 'Please use batch names in the format: mca1st, mca2nd, btech4th, etc.');
 
 
   }
@@ -92,8 +92,8 @@ const PSignIn = () => {
           placeholder="registration number"
           style={styles.input}
           placeholderTextColor='#000'
-          value={reg}
-          onChangeText={setReg}
+          value={registation}
+          onChangeText={setRegistation}
           keyboardType='numeric'
         />
       </View>

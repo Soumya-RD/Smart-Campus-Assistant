@@ -97,6 +97,7 @@ const PSignUp = ({ navigate }) => {
           placeholderTextColor='#000'
           value={registation}
           onChangeText={setRegistation}
+          keyboardType='numeric'
 
         />
       </View>

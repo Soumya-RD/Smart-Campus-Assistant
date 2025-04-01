@@ -9,6 +9,7 @@ const scale = (size) => (screenWidth / 375) * size;
 const normalize = (size) => PixelRatio.roundToNearestPixel(scale(size));
 
 const AdminSignIn = () => {
+  const [aid, setAid] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loadingSignIn, setLoadingSignIn] = useState(false);
@@ -33,10 +34,17 @@ const AdminSignIn = () => {
   }, []);
 
   const handleSignIn = async () => {
-    if (!email || !password) {
+    if (!aid || !email || !password) {
       Alert.alert('Error', 'Please fill all the fields.');
       return;
     }
+
+    const isAdminValid = adminData.some(admin => admin.id === aid);
+    if (!isAdminValid) {
+      Alert.alert('Error', 'Invalid Admin ID.');
+      return;
+    }
+
     setLoadingSignIn(true);
     try {
       const adminQuery = await firestore().collection('admin').where('email', '==', email).get();
@@ -52,10 +60,12 @@ const AdminSignIn = () => {
         return;
       }
       await auth().signInWithEmailAndPassword(email, password);
-      navigation.navigate('AHome');
+      navigation.navigate('AHome', { aid: aid });
       setEmail('');
       setPassword('');
       setLoadingSignIn(false);
+      setAdminData('');
+      setAid('');
     } catch (error) {
       setLoadingSignIn(false);
       if (error.code === 'auth/user-not-found') {
@@ -90,6 +100,13 @@ const AdminSignIn = () => {
         <Image source={require('./admin.png')} style={styles.image} />
       </View>
       <View style={styles.inputContainer}>
+        <TextInput
+          placeholder='aid'
+          placeholderTextColor='#000'
+          value={aid}
+          onChangeText={setAid}
+          style={styles.input}
+        />
         <TextInput
           placeholder='email'
           placeholderTextColor='#000'
@@ -148,11 +165,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: normalize(20),
     marginVertical: normalize(10),
+    color: '#000'
   },
   signinButton: {
     borderWidth: 1,
     marginHorizontal: normalize(90),
-    height: normalize(35),
+    height: normalize(40),
     marginVertical: normalize(25),
     borderRadius: normalize(5),
     backgroundColor: '#023047',
@@ -160,7 +178,7 @@ const styles = StyleSheet.create({
   signInText: {
     textAlign: 'center',
     fontSize: normalize(15),
-    paddingVertical: normalize(5),
+    paddingVertical: normalize(7),
     fontWeight: 'bold',
     color: '#fff',
   },
